@@ -57,13 +57,16 @@
 
                                              <div class="col-12">
                                                  <label for="email" class="form-label">Email</label>
-                                                 <input type="email" name="email" class="form-control" id="email" placeholder="jhon@example.com">
-                                             </div>
+                                                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="jhon@example.com">
+                                                @error('email')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                                </div>
                                              <div class="col-12">
                                                  <label for="password" class="form-label">Password</label>
                                                  <div class="input-group" id="show_hide_password">
-                                                     <input type="password" name="password" class="form-control border-end-0" id="password" value="12345678" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class="bx bx-hide"></i></a>
-                                                 </div>
+                                                     <input type="password" name="password" class="form-control border-end-0 @error('password')  is-invalid @enderror" id="password" value="12345678" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class="bx bx-hide"></i></a>
+                                                    </div>
                                              </div>
                                              <div class="col-md-6">
                                                  <div class="form-check form-switch">
