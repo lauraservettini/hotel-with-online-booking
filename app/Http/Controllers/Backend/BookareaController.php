@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BookArea;
 use Intervention\Image\Facades\Image;
-use Carbon\Carbon;
 
 
 class BookareaController extends Controller
