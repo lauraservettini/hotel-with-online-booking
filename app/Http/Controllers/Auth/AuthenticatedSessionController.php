@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -29,12 +30,22 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        var_dump($request->user()->role);
+        $id = Auth::user()->id;
+
+        $profileData = User::find($id);
+
+        $username = $profileData->name;
+
+        $notification = array(
+            'message' => "User {$username} Login Successfully",
+            'alert-type' => 'info'
+        );
+
         if ($request->user()->role === "admin") {
-            return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
+            return redirect()->intended(RouteServiceProvider::ADMIN_HOME)->with($notification);
         }
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended(RouteServiceProvider::HOME)->with($notification);
     }
 
     /**

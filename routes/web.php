@@ -23,13 +23,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [UserController::class, 'home'])->name('home');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('frontend.dashboard.user_dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [UserController::class, 'userProfile'])->name('user.profile');
+    Route::post('/profile/store', [UserController::class, 'updateProfile'])->name('user.profile.store');
+    Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
+    Route::get('/user/change/password', [UserController::class, 'changePassword'])->name('change.password');
+    Route::post('/user/change/password', [UserController::class, 'updatePassword'])->name('update.password');
 });
 
 require __DIR__ . '/auth.php';

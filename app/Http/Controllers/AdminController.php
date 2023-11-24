@@ -85,7 +85,8 @@ class AdminController extends Controller
         //Validation
         $request->validate([
             "old_password" => "required",
-            "password" => "required|confirmed"
+            "password" => "required|confirmed",
+            "password_confirmation" => "required"
         ]);
 
         // verifica se la vecchia password corrisponde
