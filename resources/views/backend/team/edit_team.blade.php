@@ -74,7 +74,7 @@
                                     <h6 class="mb-0"></h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    <img id="showImage" src="{{ (!empty($team->image)) ? asset($team->image) : url('upload/no_image.jpg'); }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="80">
+                                    <img id="showImage" src="{{ (!empty($team->image)) ? asset($team->image) : url('upload/no_image.jpg'); }}" alt="Team" class="rounded-circle p-1 bg-primary" width="80">
                                 </div>
                             </div>
                             <div class="row">

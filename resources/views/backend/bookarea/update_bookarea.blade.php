@@ -7,13 +7,13 @@
 <div class="page-content">
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Add Team</div>
+        <div class="breadcrumb-title pe-3">Book Area</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Team</li>
+                    <li class="breadcrumb-item active" aria-current="page">Update Book Area</li>
                 </ol>
             </nav>
         </div>
@@ -24,39 +24,53 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
-                        <form action="{{ route('post.add.team') }}" method="POST" enctype="multipart/form-data" id="myForm">
+                        <form action="{{ route('store.bookarea') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+
+                            <input type="hidden" name="id" value="{{ (!empty($book->id)) ? $book->id : null; }}">
     
                             <div class="card-body">
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <h6 class="mb-0">Name</h6>
+                                        <h6 class="mb-0">Short Title</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" name="name" class="form-control" @error('name') is-invalid @enderror />
-                                        @error('name')
+                                        <input type="text" name="short_title" class="form-control" value="{{ (!empty($book->short_title)) ? $book->short_title : ""; }}" @error('short_title') is-invalid @enderror />
+                                        @error('short_title')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <h6 class="mb-0">Position</h6>
+                                        <h6 class="mb-0">Main Title</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" name="position" class="form-control" @error('position') is-invalid @enderror />
-                                        @error('position')
+                                        <input type="text" name="main_title" class="form-control" value="{{ (!empty($book->main_title)) ? $book->main_title : ""; }}" @error('main_title') is-invalid @enderror />
+                                        @error('main_title')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <h6 class="mb-0">Facebook</h6>
+                                        <h6 class="mb-0">Short Description</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="text" name="facebook" class="form-control" @error('facebook') is-invalid @enderror />
-                                        @error('facebook')
+                                        <textarea name="short_descr" class="form-control" row="3" @error('short_descr') is-invalid @enderror>{{ (!empty($book->short_descr)) ? $book->short_descr : ""; }}"
+                                        </textarea>
+                                        @error('short_descr')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Link Url</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" name="link_url" class="form-control" value="{{ (!empty($book->link_url)) ? $book->link_url : ""; }}" @error('link_url') is-invalid @enderror />
+                                        @error('link_url')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
@@ -77,7 +91,7 @@
                                         <h6 class="mb-0"></h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <img id="showImage" src="{{ url('upload/no_image.jpg') }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="80">
+                                        <img id="showImage" src="{{ (!empty($book->image)) ? asset($book->image) : url('upload/no_image.jpg'); }}" alt="Admin" class="rounded-circle p-1 bg-primary" width="80">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -86,8 +100,8 @@
                                         <input type="submit" class="btn btn-primary px-4" value="Save Changes" />
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
