@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Backend\TeamController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -47,3 +47,17 @@ Route::middleware('auth', 'roles:admin')->group(function () {
 });
 
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+
+//Admin teams group middleware
+Route::middleware('auth', 'roles:admin')->group(function () {
+
+    // Team All Route Group
+    Route::controller(TeamController::class)->group(function () {
+        Route::get('/admin/all-team', 'allTeam')->name('all.team');
+        Route::get('/admin/add-team', 'getAddTeam')->name('add.team');
+        Route::post('/admin/add-team', 'postAddTeam')->name('post.add.team');
+        Route::get('/admin/edit/{id}', 'getEdit')->name('edit.team');
+        Route::post('/admin/edit/{id}', 'postEdit')->name('update.team');
+        Route::get('/admin/delete/{id}', 'delete')->name('delete.team');
+    });
+});

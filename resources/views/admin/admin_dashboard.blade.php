@@ -72,6 +72,12 @@
 	<script>
 		new PerfectScrollbar(".app-container")
 	</script>
+
+	<!-- Sweetaler -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script src="{{ asset('backend/assets/js/code.js')}}"></script>
+
+	<!-- Toastr JS -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 	<script>
@@ -96,6 +102,17 @@
 	 }
 	 @endif 
 	</script>
+
+	<!-- Datatable JS -->
+	<script src="{{ asset('backend/assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+	<script src="{{ asset('backend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
+	<script>
+		$(document).ready(function() {
+			$('#example').DataTable();
+		} );
+	</script>
+	<!-- Datatable JS End-->
+
 </body>
 
 </html>
