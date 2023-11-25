@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RoomType;
-use Intervention\Image\Facades\Image;
+use App\Models\Room;
 use Carbon\Carbon;
 
 class RoomTypeController extends Controller
@@ -13,6 +13,7 @@ class RoomTypeController extends Controller
     public function roomTypeList()
     {
         $rooms = RoomType::orderBy('id', 'desc')->get();
+
         return view(
             'backend.rooms.room_type.room_type_list',
             compact('rooms')
@@ -31,9 +32,13 @@ class RoomTypeController extends Controller
             'name' => "required"
         ]);
 
-        RoomType::inseRt([
+        $roomTypeId = RoomType::insertGetId([
             'name' => $request->name,
             'created_at' => Carbon::now()
+        ]);
+
+        Room::insert([
+            'roomtype_id' => $roomTypeId
         ]);
 
         // invia notifica
@@ -44,5 +49,17 @@ class RoomTypeController extends Controller
 
 
         return redirect()->route('room.type.list')->with($notification);
+    }
+
+    public function editRoomType($id)
+    {
+    }
+
+    public function updateRoomType($id, Request $request)
+    {
+    }
+
+    public function delete($id)
+    {
     }
 }

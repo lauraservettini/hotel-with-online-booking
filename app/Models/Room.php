@@ -4,16 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Room;
+use App\Models\RoomType;
 
-class RoomType extends Model
+class Room extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function room()
+    public function roomType()
     {
-        return $this->belongsTo(Room::class, 'id', 'roomtype_id');
+        return $this->belongsTo(RoomType::class, 'roomtype_id', 'id');
     }
 }

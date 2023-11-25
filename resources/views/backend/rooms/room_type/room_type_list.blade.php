@@ -5,6 +5,7 @@
 <div class="page-content">
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+        <div class="breadcrumb-title pe-3">Room</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
@@ -32,14 +33,20 @@
                     </thead>
                     <tbody>
                         @foreach($rooms as $key =>$item)
+                        @php
+                            $rooms = App\Models\Room::where('roomtype_id','=', $item->id)->get();
+                        @endphp
                         <tr>
                             <td>{{ $item->id }}</td>
-                            <td></td>
+                            <td><img src="{{ !empty($item->room->image)  ? url('upload/room_images/' . $item->room->image) : url('upload/no_image.jpg')}}" alt=""
+                                width="40px" height="40px"></td>
                             <td>{{ $item->name }}</td>
-                            <td>
-                                <a href="{{ route('edit.team', $item->id) }}" class="btn btn-warning px-3 radius-30">Edit</a>
-                                <a href="{{ route('delete.team', $item->id) }}" id="delete" class="btn btn-danger px-3 radius-30">Delete</a>
-                            </td>
+                            @foreach ($rooms as $room)
+                                <td>
+                                    <a href="{{ route('edit.room', $room->id) }}" class="btn btn-warning px-3 radius-30">Edit</a>
+                                    <a href="{{ route('delete.room', $room->id) }}" id="delete" class="btn btn-danger px-3 radius-30">Delete</a>
+                                </td>
+                            @endforeach
                         </tr>
                         @endforeach
                     </tbody>

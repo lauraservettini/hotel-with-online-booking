@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\TeamController;
 use App\Http\Controllers\Backend\BookareaController;
 use App\Http\Controllers\Backend\RoomTypeController;
+use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -74,5 +75,13 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::get('/admin/room-type/list', 'roomTypeList')->name('room.type.list');
         Route::get('/admin/room-type/add', 'addRoomType')->name('add.room.type');
         Route::post('/admin/room-type/add', 'postAddRoomType')->name('store.room.type');
+    });
+
+    // Room All Route Group
+    Route::controller(RoomController::class)->group(function () {
+        Route::get('/admin/room/update/{id}', 'editRoom')->name('edit.room');
+        Route::post('/admin/room/update/{id}', 'updateRoom')->name('update.room');
+        Route::get('/admin/room/delete/{id}', 'deleteRoom')->name('delete.room');
+        Route::get('/admin/room/delete/image/{id}', 'multiImageDelete')->name('multi.images.delete');
     });
 });
