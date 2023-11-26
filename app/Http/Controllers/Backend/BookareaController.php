@@ -48,7 +48,7 @@ class BookareaController extends Controller
             $book->update([
                 'short_title' => $request->short_title,
                 'main_title' => $request->main_title,
-                'short_descr' => $request->short_title,
+                'short_descr' => $request->short_descr,
                 'link_url' => $request->link_url,
                 'image' => $save_url
             ]);
@@ -66,7 +66,7 @@ class BookareaController extends Controller
             BookArea::findOrFail($book_id)->update([
                 'short_title' => $request->short_title,
                 'main_title' => $request->main_title,
-                'short_descr' => $request->short_title,
+                'short_descr' => $request->short_descr,
                 'link_url' => $request->link_url
             ]);
             // invia notifica

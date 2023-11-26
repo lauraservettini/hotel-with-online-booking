@@ -2,7 +2,8 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-3 col-md-2 pr-0">
-                <div class="language-list">
+                {{-- Eventuale scelta tra vari lingue --}}
+                {{-- <div class="language-list">
                     <select class="language-list-item">
                         <option>English</option>
                         <option>العربيّة</option>
@@ -10,7 +11,7 @@
                         <option>Português</option>
                         <option>简体中文</option>
                     </select>	
-                </div>
+                </div> --}}
             </div>
 
             <div class="col-lg-9 col-md-10">

@@ -50,16 +50,4 @@ class RoomTypeController extends Controller
 
         return redirect()->route('room.type.list')->with($notification);
     }
-
-    public function editRoomType($id)
-    {
-    }
-
-    public function updateRoomType($id, Request $request)
-    {
-    }
-
-    public function delete($id)
-    {
-    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Room;
+use App\Models\RoomType;
+use App\Models\RoomNumber;
 use App\Models\Facility;
 use App\Models\MultiImage;
 use Intervention\Image\Facades\Image;
@@ -18,9 +20,11 @@ class RoomController extends Controller
         $basic_facility = Facility::where('room_id', $id)->get()->toArray();
         $multi_images = MultiImage::where('room_id', $id)->get()->toArray();
 
+        $allRoomNo = RoomNumber::where('room_id', $id)->get()->toArray();
+
         return view(
             'backend.rooms.rooms.edit_room',
-            compact('room', 'basic_facility', 'multi_images')
+            compact('room', 'basic_facility', 'multi_images', 'allRoomNo')
         );
     }
 
@@ -113,17 +117,27 @@ class RoomController extends Controller
                     'message' => 'Room Updated Successfully',
                     'alert-type' => 'success'
                 );
+
+                return redirect()->back()->with($notification);
+            } else {
+                // invia notifica
+                $notification = array(
+                    'message' => 'Room Updated Successfully',
+                    'alert-type' => 'success'
+                );
+
+                return redirect()->back()->with($notification);
             }
         }
-        return redirect()->back()->with($notification);
+        return redirect()->back();
     }
 
     public function multiImageDelete(int $id)
     {
         $toDeleteData = MultiImage::where('id', $id)->first();
 
-        if ($toDeleteData) {
-            $imagePath = public_path('upload/room_images/multi_img' . $toDeleteData->multi_image);
+        if (!empty($toDeleteData->multi_image) && $toDeleteData->multi_image) {
+            $imagePath = public_path('upload/room_images/multi_img/' . $toDeleteData->multi_image);
 
             // Verifica se il file esiste e lo cancella
             if (file_exists($imagePath)) {
@@ -145,7 +159,48 @@ class RoomController extends Controller
 
         return redirect()->back()->with($notification);
     }
-    public function delete($id)
+
+    public function deleteRoom($id, Request $request)
     {
+        $room = Room::find($id);
+
+        $roomMultiImages = MultiImage::where('room_id', $id)->get()->toArray();
+
+        if (!empty($room->image) && $room->image) {
+            $imagePath = public_path('upload/room_images/' . $room->image);
+        }
+
+        // Verifica se esiste l'immagine singola e la cancella
+        if (!empty($imagePath) && file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // Verifica se esistono le immagini e lo cancella
+        if (!empty($roomMultiImages)) {
+
+            foreach ($roomMultiImages as $roomMultiImage) {
+                $roomMultiImagePath = public_path('upload/room_images/multi_img/' . $roomMultiImage['multi_image']);
+
+                // cancella la vecchia immagine da upload/admin_images
+                if (!empty($roomMultiImagePath) && file_exists($roomMultiImagePath)) {
+                    unlink($roomMultiImagePath);
+                }
+            }
+        }
+
+        // Cancella il RoomType, la room, le room number, le Facility e le multiImages nel database
+        RoomType::where('id', $room->roomtype_id)->delete();
+        RoomNumber::where('room_id', $id)->delete();
+        Facility::where('room_id', $id)->delete();
+        MultiImage::where('room_id', $id)->delete();
+        $room->delete();
+
+        // invia notifica
+        $notification = array(
+            'message' => 'Room Type Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
     }
 }

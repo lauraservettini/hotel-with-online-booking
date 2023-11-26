@@ -10,8 +10,8 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <div class="col">
-                        <a href="{{ route('add.room.type')}}"class="btn btn-primary px-5 radius-30">Add Room Type</a>
-                    </div> 
+                        <a href="{{ route('add.room.type')}}"class="btn btn-primary px-5 rounded">Add Room Type</a>
+                    </div>
                 </ol>
             </nav>
         </div>
@@ -37,7 +37,7 @@
                             $rooms = App\Models\Room::where('roomtype_id','=', $item->id)->get();
                         @endphp
                         <tr>
-                            <td>{{ $item->id }}</td>
+                            <td>{{ $key + 1 }}</td>
                             <td><img src="{{ !empty($item->room->image)  ? url('upload/room_images/' . $item->room->image) : url('upload/no_image.jpg')}}" alt=""
                                 width="40px" height="40px"></td>
                             <td>{{ $item->name }}</td>

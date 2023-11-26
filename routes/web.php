@@ -4,6 +4,8 @@ use App\Http\Controllers\Backend\TeamController;
 use App\Http\Controllers\Backend\BookareaController;
 use App\Http\Controllers\Backend\RoomTypeController;
 use App\Http\Controllers\Backend\RoomController;
+use App\Http\Controllers\Backend\RoomNumberController;
+use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -84,4 +86,19 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::get('/admin/room/delete/{id}', 'deleteRoom')->name('delete.room');
         Route::get('/admin/room/delete/image/{id}', 'multiImageDelete')->name('multi.images.delete');
     });
+
+    // Room Number All Route Group
+    Route::controller(RoomNumberController::class)->group(function () {
+        Route::post('/admin/room/number/{id}', 'storeRoomNo')->name('store.room.no');
+        Route::get('/admin/room/number/update/{id}', 'editRoomNo')->name('edit.room.no');
+        Route::post('/admin/room/number/update/{id}', 'updateRoomNo')->name('update.room.no');
+        Route::get('/admin/room/number/delete/{id}', 'deleteRoomNo')->name('delete.room.no');
+    });
+});
+
+Route::controller(FrontendRoomController::class)->group(function () {
+    Route::get('/rooms', 'roomList')->name('froom.all');
+    Route::get('/rooms/{id}', 'roomDetails')->name('room.details');
+    // Route::get('/admin/room/delete/{id}', 'deleteRoom')->name('delete.room');
+    // Route::get('/admin/room/delete/image/{id}', 'multiImageDelete')->name('multi.images.delete');
 });

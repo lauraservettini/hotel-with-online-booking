@@ -4,11 +4,12 @@
 <div class="page-content">
     <!--breadcrumb-->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+        <div class="breadcrumb-title pe-3">Team</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
                     <div class="col">
-                        <a href="{{ route('add.team')}}"class="btn btn-primary px-5 radius-30">Add Team</a>
+                        <a href="{{ route('add.team')}}"class="btn btn-primary px-5 rounded">Add Team</a>
                     </div> 
                 </ol>
             </nav>
@@ -34,7 +35,7 @@
                     <tbody>
                         @foreach($team as $key =>$item)
                         <tr>
-                            <td>{{ $item->id }}</td>
+                            <td>{{ $key + 1 }}</td>
                             <td><img src="{{asset($item->image) }}" alt="{{ $item->name }}" style="width:40px; height:40px"></td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->position }}</td>
