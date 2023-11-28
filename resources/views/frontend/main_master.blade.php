@@ -71,7 +71,8 @@
 
 
         <!-- Jquery Min JS -->
-        <script src="{{ asset('frontend/assets/js/jquery.min.js')}}"></script>
+        <!-- <script src="{{ asset('frontend/assets/js/jquery.min.js')}}"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <!-- Bootstrap Bundle Min JS -->
         <script src="{{ asset('frontend/assets/js/bootstrap.bundle.min.js')}}"></script>
         <!-- Magnific Popup Min JS -->

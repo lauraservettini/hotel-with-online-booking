@@ -96,9 +96,11 @@ Route::middleware('auth', 'roles:admin')->group(function () {
     });
 });
 
+// Frontend All Route Group
 Route::controller(FrontendRoomController::class)->group(function () {
     Route::get('/rooms', 'roomList')->name('froom.all');
     Route::get('/rooms/{id}', 'roomDetails')->name('room.details');
-    // Route::get('/admin/room/delete/{id}', 'deleteRoom')->name('delete.room');
-    // Route::get('/admin/room/delete/image/{id}', 'multiImageDelete')->name('multi.images.delete');
+    Route::get('/booking/search', 'bookingSearch')->name('booking.search');
+    Route::get('/booking/search/{id}', 'bookingSearchDetails')->name('search.room.details');
+    Route::get('/booking/check-room-availability', 'checkRoomsAvailability')->name('check.room.availability');
 });

@@ -2,6 +2,8 @@
 
 @section('master')
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <!-- Inner Banner -->
 <div class="inner-banner inner-bg9">
     <div class="container">
@@ -11,9 +13,9 @@
                     <a href="index.html">Home</a>
                 </li>
                 <li><i class='bx bx-chevron-right'></i></li>
-                <li>Room Details</li>
+                <li>Search Room Details</li>
             </ul>
-            <h3>{{  $room['roomtype']['name'] }}</h3>
+            <h3>{{ $room['roomtype']['name'] }}</h3>
         </div>
     </div>
 </div>
@@ -27,13 +29,16 @@
                 <div class="room-details-side">
                     <div class="side-bar-form">
                         <h3>Booking Sheet </h3>
-                        <form>
+                        <form action="{{ route('check.room.availability') }}" method="POST" id="bk_form">
+                            @csrf
+                            <input type="hidden" name="room_id" id="room_id" value="{{ $room->id }}">
+
                             <div class="row align-items-center">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Check in</label>
                                         <div class="input-group">
-                                            <input id="datetimepicker" type="text" class="form-control" placeholder="09/29/2020">
+                                            <input name="check_in" id="check_in" type="text" class="form-control dt-picker" value="{{ old('check_in') ? date('Y-m-d', strtotime(old('check_in'))) : "" }}" required autocomplete="off">
                                             <span class="input-group-addon"></span>
                                         </div>
                                         <i class='bx bxs-calendar'></i>
@@ -44,7 +49,7 @@
                                     <div class="form-group">
                                         <label>Check Out</label>
                                         <div class="input-group">
-                                            <input id="datetimepicker-check" type="text" class="form-control" placeholder="09/29/2020">
+                                            <input name="check_out" id="check_out" type="text" class="form-control dt-picker" value="{{ old('check_out') ? date('Y-m-d', strtotime(old('check_out'))) : "" }}" required autocomplete="off">
                                             <span class="input-group-addon"></span>
                                         </div>
                                         <i class='bx bxs-calendar'></i>
@@ -54,29 +59,50 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Numbers of Persons</label>
-                                        <select class="form-control">
-                                            <option>01</option>
-                                            <option>02</option>
-                                            <option>03</option>
-                                            <option>04</option>
-                                            <option>05</option>
+                                        <select class="form-control" id="numberOfPerson" name="person">
+                                        @for($i = 1 ; $i <= $room->room_capacity; $i++)
+                                            <option value="0{{ $i }}" {{ old('person') == $i ? "selected" : ""  }}>0{{ $i }}</option>
+                                        @endfor
                                         </select>	
                                     </div>
                                 </div>
 
+                                <input type="hidden" id="total_adult" value="{{ $room->total_adult }}">
+                                <input type="hidden" id="room_price" value="{{ $room->price }}">
+                                <input type="hidden" id="discount_p" value="{{ $room->discount }}">
+
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Numbers of Rooms</label>
-                                        <select class="form-control">
-                                            <option>01</option>
-                                            <option>02</option>
-                                            <option>03</option>
-                                            <option>04</option>
-                                            <option>05</option>
+                                        <select class="form-control" id="numberOfRooms" name="numberOfRooms">
+                                        @for($i = 1 ; $i <= 4; $i++)
+                                            <option value="0{{ $i }}">0{{ $i }}</option>
+                                        @endfor
                                         </select>	
                                     </div>
+                                    <input type="hidden" name="available_room" id="available_room">
+                                    <p class="available_room"></p>
                                 </div>
     
+                                <div class="col-lg-12">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><p>Subtotal</p></td>
+                                                <td class="text-end"><span class="t_subtotal">0</span> €</td>
+                                            </tr>
+                                            <tr>
+                                                <td><p>Discount</p></td>
+                                                <td class="text-end"><span class="t_discount">0</span>%</td>
+                                            </tr>
+                                            <tr>
+                                                <td><p>Total</p></td>
+                                                <td class="text-end"><span class="t_g_total">0</span> €</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                                 <div class="col-lg-12 col-md-12">
                                     <button type="submit" class="default-btn btn-bg-three border-radius-5">
                                         Book Now
@@ -236,5 +262,98 @@
     </div>
 </div>
 <!-- Room Details Other End -->
+
+<script>
+    $(document).ready(function () {
+       var check_in = $("#check_in").val();
+       var check_out = $("#check_out").val();
+       var room_id = $("#room_id").val();
+       if (check_in != '' && check_out != ''){
+          getAvaility(check_in, check_out, room_id);
+       }
+
+
+       $("#check_out").on('change', function () {
+          var check_out = $(this).val();
+          var check_in = $("#check_in").val();
+
+          if(check_in != '' && check_out != ''){
+             getAvaility(check_in, check_out, room_id);
+          }
+       });
+
+       $("#check_in").on('change', function () {
+          var check_in = $(this).val();
+          var check_out = $("#check_out").val();
+
+          if(check_in != '' && check_out != ''){
+             getAvaility(check_in, check_out, room_id);
+          }
+       });
+
+       $("#numberOfRooms").on('change', function () {
+          var check_out = $("#check_out").val();
+          var check_in = $("#check_in").val();
+
+          if(check_in != '' && check_out != ''){
+             getAvaility(check_in, check_out, room_id);
+          }
+       });
+
+
+    });
+
+
+
+     function getAvaility(check_in, check_out, room_id) {
+        $.ajax({
+          url: "/booking/check-room-availability",
+          data: {
+            room_id:room_id,
+            check_in:check_in, 
+            check_out:check_out},
+          success: function(data){
+             $(".available_room").html('Availability : <span class="text-success">'+data['available_room']+' Rooms</span>');
+             $("#available_room").val(data['available_room']);
+             price_calculate(data['total_nights']);
+          },
+          error: function(stato){
+            alert("Qualcosa è andato storto");
+          }
+       }); 
+    }
+
+    function price_calculate(total_nights){
+       var room_price = $("#room_price").val();
+       var discount_p = $("#discount_p").val();
+       var select_room = $("#numberOfRooms").val();
+
+       var sub_total = room_price * total_nights * parseInt(select_room);
+
+       var discount_price = (parseInt(discount_p)/100)*sub_total;
+
+       $(".t_subtotal").text(sub_total);
+       $(".t_discount").text(discount_price);
+       $(".t_g_total").text(sub_total-discount_price);
+
+    }
+
+    $("#bk_form").on('submit', function () {
+       var avg_room = $("#available_room").val();
+       var select_room = $("#numberOfRooms").val();
+       if (parseInt(select_room) >  avg_room){
+          alert('Sorry, you select maximum number of room');
+          return false;
+       }
+       var number_person = $("#numberOfPerson").val();
+       var total_adult = $("#total_adult").val();
+       if(parseInt(number_person) > parseInt(total_adult)){
+          alert('Sorry, you select maximum number of person');
+          return false;
+       }
+
+    })
+ </script>
+
 
 @endsection

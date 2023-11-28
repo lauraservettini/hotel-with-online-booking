@@ -43,6 +43,7 @@ class RoomController extends Controller
         $room->description = $request->description;
         $room->view = $request->view;
         $room->bed_style = $request->bed_style;
+        $room->status = 1;
 
         // Update single Image
         if ($request->file('image')) {
