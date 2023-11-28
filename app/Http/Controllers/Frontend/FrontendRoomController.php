@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\RoomBookedDate;
 use App\Models\Booking;
-use App\Models\RoomNumber;
 use App\Models\Facility;
 use App\Models\MultiImage;
-use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 
@@ -69,20 +67,20 @@ class FrontendRoomController extends Controller
 
         $rooms = Room::withCount('roomNumbers')->where('status', '1')->get()->toArray();
 
-        return view('frontend.booking.rooms.search_room', compact('rooms', 'checkDateBookingIds'));
+        return view('frontend.rooms.search_room', compact('rooms', 'checkDateBookingIds'));
     }
 
     public function bookingSearchDetails(Request $request, int $id)
     {
         $request->flash();
 
-        $room = Room::find($id);
+        $room = Room::withCount('roomNumbers')->find($id);
         $multiImages = MultiImage::where('room_id', $id)->get()->toArray();
         $facilities = Facility::where('room_id', $id)->get()->toArray();
 
         $otherRooms = Room::where('id', '!=', $id)->orderby('id', 'DESC')->get()->toArray();
 
-        return view('frontend.booking.rooms.search_room_details', compact('room', 'multiImages', 'facilities', 'otherRooms'));
+        return view('frontend.rooms.search_room_details', compact('room', 'multiImages', 'facilities', 'otherRooms'));
     }
 
     public function checkRoomsAvailability(Request $request)
@@ -121,21 +119,22 @@ class FrontendRoomController extends Controller
 
         $rooms = Room::withCount('roomNumbers')->find($request->room_id);
 
+        // Verifica se ci sono booking per il tipo di stanza, altrimenti assegna 0 a totalBookRooms
         if (!empty($checkDateBookingIds)) {
             $bookings = Booking::withCount('assignRooms')->whereIn('id', $checkDateBookingIds)->where('room_id', $request->room_id)->toArray();
-            $totalBookRooms = array_sum(array_column($bookings, 'assignRooms_count'));
+            $totalBookRooms = array_sum(array_column($bookings, 'assign_rooms_count'));
         } else {
             $totalBookRooms = 0;
         }
 
-
-        $avg_room = @$rooms['roomNumbers_count'] - $totalBookRooms;
+        $avg_room = @$rooms['room_numbers_count'] - $totalBookRooms;
 
         $endDate = Carbon::parse($request->check_out);
         $startDate = Carbon::parse($request->check_in);
 
         // Calcola il periodo
         $nights = $endDate->diffInDays($startDate);
+
         return response()->json([
             'available_room' => $avg_room,
             'total_nights' => $nights

@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\RoomTypeController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\RoomNumberController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
+use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -32,29 +33,34 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // Auth routes
     Route::get('/profile', [UserController::class, 'userProfile'])->name('user.profile');
     Route::post('/profile/store', [UserController::class, 'updateProfile'])->name('user.profile.store');
     Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
     Route::get('/user/change/password', [UserController::class, 'changePassword'])->name('change.password');
     Route::post('/user/change/password', [UserController::class, 'updatePassword'])->name('update.password');
+
+    // Booking All Route Group
+    Route::controller(BookingController::class)->group(function () {
+        Route::get('/booking/checkout', 'checkout')->name('checkout');
+        Route::post('/booking/store', 'storeUserBooking')->name('user.booking.store');
+    });
 });
 
 require __DIR__ . '/auth.php';
 
-//Admin group middleware
+Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+
+//Admin teams group middleware
 Route::middleware('auth', 'roles:admin')->group(function () {
+
+    //Admin group middleware
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::post('/admin/profile', [AdminController::class, 'updateProfile'])->name('admin.profile.store');
     Route::get('/admin/change/password', [AdminController::class, 'updatePassword'])->name('admin.change.password');
     Route::post('/admin/change/password', [AdminController::class, 'storePassword'])->name('admin.change.password.store');
-});
-
-Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
-
-//Admin teams group middleware
-Route::middleware('auth', 'roles:admin')->group(function () {
 
     // Team All Route Group
     Route::controller(TeamController::class)->group(function () {

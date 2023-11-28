@@ -29,7 +29,7 @@
                 <div class="room-details-side">
                     <div class="side-bar-form">
                         <h3>Booking Sheet </h3>
-                        <form action="{{ route('check.room.availability') }}" method="POST" id="bk_form">
+                        <form action="{{ route('user.booking.store', $room->id) }}" method="POST" id="bk_form">
                             @csrf
                             <input type="hidden" name="room_id" id="room_id" value="{{ $room->id }}">
 
@@ -38,35 +38,45 @@
                                     <div class="form-group">
                                         <label>Check in</label>
                                         <div class="input-group">
-                                            <input name="check_in" id="check_in" type="text" class="form-control dt-picker" value="{{ old('check_in') ? date('Y-m-d', strtotime(old('check_in'))) : "" }}" required autocomplete="off">
+                                            <input name="check_in" id="check_in" type="text" class="form-control dt-picker" value="{{ old('check_in') ? date('Y-m-d', strtotime(old('check_in'))) : "" }}" required autocomplete="off" @error('check_in') is-invalid @enderror />
                                             <span class="input-group-addon"></span>
                                         </div>
                                         <i class='bx bxs-calendar'></i>
                                     </div>
+                                    @error('check_in')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Check Out</label>
                                         <div class="input-group">
-                                            <input name="check_out" id="check_out" type="text" class="form-control dt-picker" value="{{ old('check_out') ? date('Y-m-d', strtotime(old('check_out'))) : "" }}" required autocomplete="off">
+                                            <input name="check_out" id="check_out" type="text" class="form-control dt-picker" value="{{ old('check_out') ? date('Y-m-d', strtotime(old('check_out'))) : "" }}" required autocomplete="off" @error('check_out') is-invalid @enderror />
                                             <span class="input-group-addon"></span>
                                         </div>
                                         <i class='bx bxs-calendar'></i>
                                     </div>
+                                    @error('check_out')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Numbers of Persons</label>
-                                        <select class="form-control" id="numberOfPerson" name="person">
+                                        <select class="form-control" id="numberOfPerson" name="person" @error('numberOfPerson') is-invalid @enderror />
                                         @for($i = 1 ; $i <= $room->room_capacity; $i++)
                                             <option value="0{{ $i }}" {{ old('person') == $i ? "selected" : ""  }}>0{{ $i }}</option>
                                         @endfor
                                         </select>	
                                     </div>
+                                    @error('numberOfPerson')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
+                                <input type="hidden" name="room_capacity" value="{{ $room->room_capacity }}">
                                 <input type="hidden" id="total_adult" value="{{ $room->total_adult }}">
                                 <input type="hidden" id="room_price" value="{{ $room->price }}">
                                 <input type="hidden" id="discount_p" value="{{ $room->discount }}">
@@ -74,11 +84,14 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Numbers of Rooms</label>
-                                        <select class="form-control" id="numberOfRooms" name="numberOfRooms">
-                                        @for($i = 1 ; $i <= 4; $i++)
+                                        <select class="form-control" id="numberOfRooms" name="numberOfRooms" @error('numberOfRooms') is-invalid @enderror />
+                                        @for($i = 1 ; $i <= $room['room_numbers_count'] ; $i++)
                                             <option value="0{{ $i }}">0{{ $i }}</option>
                                         @endfor
                                         </select>	
+                                        @error('numberOfRooms')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <input type="hidden" name="available_room" id="available_room">
                                     <p class="available_room"></p>
