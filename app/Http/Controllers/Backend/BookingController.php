@@ -70,8 +70,10 @@ class BookingController extends Controller
 
         $booking->save();
 
+        // cancella i vecchi dati da RoomBookingList table
+        RoomBookingList::where('booking_id', $id)->delete();
         // cancella i vecchi dati da RoomBookedDate table
-        $oldBookDates = RoomBookedDate::where('booking_id', $id)->delete();
+        RoomBookedDate::where('booking_id', $id)->delete();
 
         // salva i dati nella RoomBookedDate
         $lastDate = Carbon::create($endDate)->subDay();
@@ -89,6 +91,74 @@ class BookingController extends Controller
 
         $notification = array(
             'message' => "Booking Updated Successfully!",
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function assignRoom(int $bookingId)
+    {
+        // cerca i dati di booking
+        $booking = Booking::find($bookingId);
+
+        $bookedDates = RoomBookedDate::where('booking_id', $bookingId)->pluck('book_date')->toArray();
+
+        $checkDateBookingIds = RoomBookedDate::whereIn('book_date', $bookedDates)
+            ->where('room_id', $booking->room_id)->distinct()->pluck('booking_id')->toArray();
+
+        $bookingIds = Booking::whereIn('id', $checkDateBookingIds)->pluck('id')->toArray();
+
+        // cerca i numeri di stanza già assegnati
+        $assignRoomIds = RoomBookingList::whereIn('booking_id', $bookingIds)
+            ->pluck('room_number_id')->toArray();
+
+        if (!empty($assignRoomIds) && $assignRoomIds !== null) {
+            // cerca i numeri delle stanze attive relative al ripo di camera che non sono già stati assegnati
+            $roomNumbers = RoomNumber::where('room_id', $booking->room_id)
+                ->whereNotIn('id', $assignRoomIds)->where('status', 'Active')->get();
+        } else {
+            $roomNumbers = RoomNumber::where('room_id', $booking->room_id)->where('status', 'Active')->get();
+        }
+
+        return view('backend.booking.assignRoom', compact('booking', 'roomNumbers'));
+    }
+
+    public function assignRoomStore(int $bookingId, int $roomNumberId)
+    {
+        // cerca i dati di booking
+        $booking = Booking::find($bookingId);
+
+        // verifica se la stanza è già assegnata
+        $checkAvailability = RoomBookingList::where('booking_id', $bookingId)->count();
+
+        if ($checkAvailability < $booking->number_of_rooms) {
+            $assignData = new RoomBookingList();
+            $assignData->booking_id = $bookingId;
+            $assignData->room_id = $booking->room_id;
+            $assignData->room_number_id = $roomNumberId;
+
+            $assignData->save();
+            $notification = array(
+                'message' => "Room Assigned!",
+                'alert-type' => 'success'
+            );
+        } else {
+            $notification = array(
+                'message' => "Room Already Assigned!",
+                'alert-type' => 'error'
+            );
+        }
+
+        return redirect()->back()->with($notification);
+    }
+
+    public function deleteAssignRoom(int $roomBookingListId)
+    {
+        RoomBookingList::find($roomBookingListId)->delete();
+
+        $notification = array(
+            'message' => "Room Unassigned Successfully!",
             'alert-type' => 'success'
         );
 

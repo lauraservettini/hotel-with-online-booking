@@ -111,6 +111,11 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::get('//admin/booking/{id}', 'editBooking')->name('edit.booking');
         Route::post('/admin/booking/status/{id}', 'updateBookingStatus')->name('update.booking.status');
         Route::post('/admin/booking/date/{id}', 'updateBookingDate')->name('update.booking.date');
+
+        // Assign Room All Route Group
+        Route::get('/booking/assignRoom/{id}', 'assignRoom')->name('assign.room');
+        Route::get('/booking/assignRoom/delete/{id}', 'deleteAssignRoom')->name('delete.assign.room');
+        Route::get('/booking/assignRoom/store/{booking_id}/{room_id}', 'assignRoomStore')->name('assign.room.store');
     });
 });
 

@@ -95,9 +95,7 @@ class BookingController extends Controller
             "address" => "required",
             "zip_code" => "required",
             "state" => "required",
-            "payment_method" => "required",
-
-            // "stripeToken" => "required"
+            "payment_method" => "required"
         ]);
 
         $bookingData = Session::get('book_date');

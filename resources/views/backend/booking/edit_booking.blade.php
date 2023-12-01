@@ -157,7 +157,32 @@
                     </div>
                     <div class="mb-3" style="clear:both;"></div>
                     <div class="mb-4">
-                        <a href="javascript::void(0)" class="btn btn-primary assign_room">Assign Room</a>
+                        <a href="javascript::void(0)" class="btn btn-primary assign_room mb-2">Assign Room</a>
+                        @php
+                            $assignRooms = \App\Models\RoomBookingList::with('roomNumber')->where('booking_id', $booking->id)->get();
+                        @endphp
+
+                        @if(count($assignRooms) > 0)
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Room Number</th>
+                                <th>Action</th>
+                            </tr>
+
+                            @foreach($assignRooms as $assignRoom )
+                            <tr>
+                                <td>{{ $assignRoom->roomNumber->room_no }}</td>
+                                <td>
+                                    <a href="{{ route('delete.assign.room', $assignRoom->id) }}" id="delete" class="btn btn-danger text-white">Delete</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </table>
+                        @else
+                        <div class="alert alert-danger text-danger">
+                            Not assigned any room yet!
+                        </div>
+                        @endif
                     </div>
                 </div>
                 <!-- Table End -->
@@ -208,6 +233,7 @@
                     <form action="{{ route('update.booking.date', $booking->id) }}" method="POST">
                         @csrf
                         <input type="hidden" name="available_room" class="form-control" value="{{ $booking->number_of_rooms }}">
+                        <input type="hidden" name="booking_id" id="booking_id" class="form-control" value="{{ $booking->id }}">
                         <input type="hidden" name="room_id" id="room_id" class="form-control" value="{{ $booking->room_id }}">
                         <div class="row" >
                             <div class="col-md-12 mb-2">
@@ -266,23 +292,42 @@
 </div>
 
 <!-- Modal -->
-    <div class="modal fade myModal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade myModal" id="exampleModal" tabindex="-1" 
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Room</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" 
+                    aria-label="Close"></button>
                 </div>
                 <div class="modal-body"></div>
             </div>
         </div>
     </div>
 <!-- Modal End -->
+
 <script>
     $(document).ready(function () {
        var check_in = $("#check_in").val();
        var check_out = $("#check_out").val();
        var room_id = $("#room_id").val();
+       var booking_id = $("#booking_id").val();
+
+        $(".assign_room").on('click', function() {
+            $.ajax({
+            url: "{{ route('assign.room', $booking->id) }}",
+            success: function(data) {
+                $('.myModal .modal-body').html(data);
+                $('.myModal').modal('show');
+            },
+            error: function(stato){
+                alert("Something went wrong with assign room");
+            }
+            });
+            return false;
+        }); 
+
        if (check_in != '' && check_out != ''){
           getAvaility(check_in, check_out, room_id);
        }
@@ -331,10 +376,9 @@
           success: function(data){
              $(".available_room").html('Availability : <span class="text-success">'+data['available_room']+' Rooms</span>');
              $("#available_room").val(data['available_room']);
-             price_calculate(data['total_nights']);
           },
           error: function(stato){
-            alert("Qualcosa è andato storto");
+            alert("Something went wrong");
           }
        }); 
     }
