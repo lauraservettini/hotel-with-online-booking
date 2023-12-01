@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\RoomBookingList;
+use App\Models\User;
+use App\Models\Room;
 
 class Booking extends Model
 {
@@ -15,5 +17,15 @@ class Booking extends Model
     public function assignRooms()
     {
         return $this->hasMany(RoomBookingList::class, 'booking_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(Room::class, 'room_id', 'id');
     }
 }

@@ -120,8 +120,8 @@ class FrontendRoomController extends Controller
         $rooms = Room::withCount('roomNumbers')->find($request->room_id);
 
         // Verifica se ci sono booking per il tipo di stanza, altrimenti assegna 0 a totalBookRooms
-        if (!empty($checkDateBookingIds)) {
-            $bookings = Booking::withCount('assignRooms')->whereIn('id', $checkDateBookingIds)->where('room_id', $request->room_id)->toArray();
+        if (!empty($checkDateBookingIds) && $checkDateBookingIds !== null) {
+            $bookings = Booking::withCount('assignRooms')->whereIn('id', $checkDateBookingIds)->where('room_id', $request->room_id)->get()->toArray();
             $totalBookRooms = array_sum(array_column($bookings, 'assign_rooms_count'));
         } else {
             $totalBookRooms = 0;

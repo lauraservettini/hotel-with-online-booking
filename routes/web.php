@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\BookareaController;
 use App\Http\Controllers\Backend\RoomTypeController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\RoomNumberController;
+use App\Http\Controllers\Backend\BookingController as BookContr;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\AdminController;
@@ -44,6 +45,9 @@ Route::middleware('auth')->group(function () {
     Route::controller(BookingController::class)->group(function () {
         Route::get('/booking/checkout', 'checkout')->name('checkout');
         Route::post('/booking/store', 'storeUserBooking')->name('user.booking.store');
+        Route::post('/booking/checkout/pay', 'storeCheckout')->name('checkout.store');
+        Route::match(['get', 'post'], '/stripePay', [BookingController::class, 'stripePay'])->name('stripe.pay');
+        Route::match(['get', 'post'], '/orderFailed', [BookingController::class, 'orderFailed'])->name('order.failed');
     });
 });
 
@@ -99,6 +103,14 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::get('/admin/room/number/update/{id}', 'editRoomNo')->name('edit.room.no');
         Route::post('/admin/room/number/update/{id}', 'updateRoomNo')->name('update.room.no');
         Route::get('/admin/room/number/delete/{id}', 'deleteRoomNo')->name('delete.room.no');
+    });
+
+    // Booking All Route Group
+    Route::controller(BookContr::class)->group(function () {
+        Route::get('/admin/booking/list', 'bookingList')->name('booking.list');
+        Route::get('//admin/booking/{id}', 'editBooking')->name('edit.booking');
+        Route::post('/admin/booking/status/{id}', 'updateBookingStatus')->name('update.booking.status');
+        Route::post('/admin/booking/date/{id}', 'updateBookingDate')->name('update.booking.date');
     });
 });
 

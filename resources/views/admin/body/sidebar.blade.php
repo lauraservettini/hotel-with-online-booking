@@ -13,7 +13,7 @@
     <!--navigation-->
     <ul class="metismenu" id="menu">
         <li>
-            <a href="widgets.html">
+            <a href="{{ route('admin.dashboard') }}">
                 <div class="parent-icon"><i class='bx bx-home-alt'></i>
                 </div>
                 <div class="menu-title">Dashboard</div>
@@ -54,12 +54,12 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-label">UI Elements</li>
+        <li class="menu-label">Booking Manage</li>
         <li>
-            <a href="javascript:;" class="has-arrow">
+            <a href="{{ route('booking.list')}}" class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-cart'></i>
                 </div>
-                <div class="menu-title">eCommerce</div>
+                <div class="menu-title">Booking List</div>
             </a>
             <ul>
                 <li> <a href="{{ asset('backend/ecommerce-products.html')}}"><i class='bx bx-radio-circle'></i>Products</a>
