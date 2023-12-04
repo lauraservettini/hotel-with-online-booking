@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Room;
 use App\Models\RoomBookedDate;
 use App\Models\Booking;
 use App\Models\RoomBookingList;
