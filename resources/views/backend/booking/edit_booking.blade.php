@@ -210,6 +210,7 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <button type="submit" class="btn btn-primary">Update</button>
+                                <a href="{{ route('download.invoice', $booking->id) }}" class="btn btn-warning px-3 rounded"><i class="lni lni-download"></i>Download Invoice</a>
                         </div>
                     </div>
                 </form>
@@ -276,7 +277,7 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center mb-2">Name: <span class="badge bg-primary rounded-pill">{{ $booking['user']['name'] }}<span></li>
-                        <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center mb-2">Email: <span class="badge bg-danger rounded-pill">{{ $booking['user']['email'] }}<span></label>
+                        <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center mb-2">Email: <span class="badge bg-danger rounded-pill">{{ $booking['user']['email'] }}<span></li>
                         <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center mb-2">Phone: <span class="badge bg-info rounded-pill">{{ $booking->phone }}<span></li>
                         <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center mb-2">Country: <span class="badge bg-success rounded-pill">{{ $booking->country }}<span></li>
                         <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center mb-2">State: <span class="badge bg-danger rounded-pill">{{ $booking->state }}<span></li>

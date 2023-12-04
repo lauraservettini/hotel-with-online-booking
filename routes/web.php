@@ -109,22 +109,23 @@ Route::middleware('auth', 'roles:admin')->group(function () {
     // Booking All Route Group
     Route::controller(BookContr::class)->group(function () {
         Route::get('/admin/booking/list', 'bookingList')->name('booking.list');
-        Route::get('//admin/booking/{id}', 'editBooking')->name('edit.booking');
+        Route::get('/admin/booking/{id}', 'editBooking')->name('edit.booking');
         Route::post('/admin/booking/status/{id}', 'updateBookingStatus')->name('update.booking.status');
         Route::post('/admin/booking/date/{id}', 'updateBookingDate')->name('update.booking.date');
+        Route::get('/admin/download/{id}/download-invoice', 'downloadInvoice')->name('download.invoice');
+
 
         // Assign Room All Route Group
-        Route::get('/booking/assignRoom/{id}', 'assignRoom')->name('assign.room');
-        Route::get('/booking/assignRoom/delete/{id}', 'deleteAssignRoom')->name('delete.assign.room');
-        Route::get('/booking/assignRoom/store/{booking_id}/{room_id}', 'assignRoomStore')->name('assign.room.store');
+        Route::get('/admin/booking/assignRoom/{id}', 'assignRoom')->name('assign.room');
+        Route::get('/admin/booking/assignRoom/delete/{id}', 'deleteAssignRoom')->name('delete.assign.room');
+        Route::get('/admin/booking/assignRoom/store/{booking_id}/{room_id}', 'assignRoomStore')->name('assign.room.store');
     });
 
     // Room List All Route Group 
     Route::controller(RoomListController::class)->group(function () {
-        Route::get('/admin/room/list', 'roomList')->name('view.room.list');
-        // Route::get('//admin/booking/{id}', 'editBooking')->name('edit.booking');
-        // Route::post('/admin/booking/status/{id}', 'updateBookingStatus')->name('update.booking.status');
-        // Route::post('/admin/booking/date/{id}', 'updateBookingDate')->name('update.booking.date');
+        Route::get('/admin/room-list', 'roomList')->name('view.room.list');
+        Route::get('/admin/room-list/add', 'addRoomList')->name('add.room.list');
+        Route::post('/admin/room-list/add', 'storeRoomList')->name('store.room.list');
     });
 });
 

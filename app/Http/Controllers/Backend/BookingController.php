@@ -11,6 +11,7 @@ use App\Models\RoomBookingList;
 use App\Models\RoomNumber;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller
 {
@@ -161,5 +162,17 @@ class BookingController extends Controller
         );
 
         return redirect()->back()->with($notification);
+    }
+
+    public function downloadInvoice(int $id)
+    {
+        $booking = Booking::with('room')->find($id);
+
+        $pdf = Pdf::loadView('backend.booking.booking_invoice', compact('booking'))
+            ->setPaper('a4')->setOption([
+                'tempDir' => public_path(),
+                'chroot' => public_path(),
+            ]);
+        return $pdf->download('invoice-booking-' . $booking->code . '.pdf');
     }
 }
