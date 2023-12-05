@@ -81,13 +81,13 @@
         </li>
         
         <li>
-            <a href="#" target="_blank">
+            <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-support"></i>
                 </div>
                 <div class="menu-title">Settings</div>
             </a>
             <ul>
-                <li> <a href=""><i class='bx bx-radio-circle'></i>SMTP Settings</a>
+                <li> <a href="{{ route('smtp.settings') }}"><i class='bx bx-radio-circle'></i>SMTP Settings</a>
                 </li>
                 <li> <a href=""><i class='bx bx-radio-circle'></i>Site Settings</a>
                 </li>

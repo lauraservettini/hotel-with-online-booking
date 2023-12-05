@@ -6,9 +6,11 @@ use App\Http\Controllers\Backend\RoomTypeController;
 use App\Http\Controllers\Backend\RoomController;
 use App\Http\Controllers\Backend\RoomNumberController;
 use App\Http\Controllers\Backend\BookingController as BookContr;
+use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\RoomListController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
+use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -36,11 +38,11 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     // Auth routes
-    Route::get('/profile', [UserController::class, 'userProfile'])->name('user.profile');
-    Route::post('/profile/store', [UserController::class, 'updateProfile'])->name('user.profile.store');
-    Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
-    Route::get('/user/change/password', [UserController::class, 'changePassword'])->name('change.password');
-    Route::post('/user/change/password', [UserController::class, 'updatePassword'])->name('update.password');
+    Route::get('/dashboard/profile', [UserController::class, 'userProfile'])->name('user.profile');
+    Route::post('/dashboard/profile/store', [UserController::class, 'updateProfile'])->name('user.profile.store');
+    Route::get('/dashboard/user/logout', [UserController::class, 'logout'])->name('user.logout');
+    Route::get('/dashboard/user/change/password', [UserController::class, 'changePassword'])->name('change.password');
+    Route::post('/dashboard/user/change/password', [UserController::class, 'updatePassword'])->name('update.password');
 
     // Booking All Route Group
     Route::controller(BookingController::class)->group(function () {
@@ -49,6 +51,16 @@ Route::middleware('auth')->group(function () {
         Route::post('/booking/checkout/pay', 'storeCheckout')->name('checkout.store');
         Route::match(['get', 'post'], '/stripePay', [BookingController::class, 'stripePay'])->name('stripe.pay');
         Route::match(['get', 'post'], '/orderFailed', [BookingController::class, 'orderFailed'])->name('order.failed');
+    });
+
+    // User Dashboard All Route Group
+    Route::controller(UserDashboardController::class)->group(function () {
+        Route::get('/dashboard/booking', 'userBooking')->name('user.booking');
+        Route::get('/dashboard/booking/{id}/invoice', 'userInvoice')->name('user.invoice');
+        // Route::post('/booking/store', 'storeUserBooking')->name('user.booking.store');
+        // Route::post('/booking/checkout/pay', 'storeCheckout')->name('checkout.store');
+        // Route::match(['get', 'post'], '/stripePay', [BookingController::class, 'stripePay'])->name('stripe.pay');
+        // Route::match(['get', 'post'], '/orderFailed', [BookingController::class, 'orderFailed'])->name('order.failed');
     });
 });
 
@@ -126,6 +138,13 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::get('/admin/room-list', 'roomList')->name('view.room.list');
         Route::get('/admin/room-list/add', 'addRoomList')->name('add.room.list');
         Route::post('/admin/room-list/add', 'storeRoomList')->name('store.room.list');
+    });
+
+    // Settings All Route Group 
+    Route::controller(SettingsController::class)->group(function () {
+        Route::get('/admin/smtp-settings', 'smtpSettings')->name('smtp.settings');
+        Route::post('/admin/smtp-settings/update', 'updateSmtp')->name('update.smtp');
+        // Route::post('/admin/room-list/add', 'storeRoomList')->name('store.room.list');
     });
 });
 

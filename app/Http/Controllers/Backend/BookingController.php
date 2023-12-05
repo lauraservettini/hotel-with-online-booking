@@ -9,9 +9,13 @@ use App\Models\RoomBookedDate;
 use App\Models\Booking;
 use App\Models\RoomBookingList;
 use App\Models\RoomNumber;
+use App\Mail\BookConfirm;
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Barryvdh\DomPDF\Facade\Pdf;
+
+use function Ramsey\Uuid\v1;
 
 class BookingController extends Controller
 {
@@ -30,10 +34,27 @@ class BookingController extends Controller
 
     public function updateBookingStatus(Request $request, int $id)
     {
+        // Salva il nuovo stato si pagamento nel database
         $booking = Booking::find($id);
-        $booking->status = $request->status;
+
         $booking->payment_status = $request->payment_status;
+        $booking->status = $request->status;
+
         $booking->save();
+
+        // Invio Email di conferma
+        $sendEmail = Booking::find($id);
+
+        $data = [
+            'check_in' => $sendEmail->check_in,
+            'check_out' => $sendEmail->check_out,
+            'name' => $sendEmail->name,
+            'email' => $sendEmail->email,
+            'phone' => $sendEmail->phone,
+            'code' => $sendEmail->code
+        ];
+
+        Mail::to($sendEmail->email)->send(new BookConfirm($data));
 
         $notification = array(
             'message' => "Status and Payment Status Updated Successfully!",
