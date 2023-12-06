@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\SmtpSettings;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 use Config;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (\Schema::hasTable('smtp_settings')) {
+        if (Schema::hasTable('smtp_settings')) {
             $smtpSettings = SmtpSettings::first();
 
             if ($smtpSettings) {

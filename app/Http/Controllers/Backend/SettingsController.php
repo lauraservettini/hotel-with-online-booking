@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Facility;
 use App\Models\SmtpSettings;
 
 class SettingsController extends Controller

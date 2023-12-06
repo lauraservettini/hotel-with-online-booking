@@ -93,6 +93,20 @@
                 </li>
             </ul>
         </li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-support"></i>
+                </div>
+                <div class="menu-title">Testimonials</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('testimonials') }}"><i class='bx bx-radio-circle'></i>All Testimonials</a>
+                </li>
+                <li> <a href="{{ route('add.testimonial') }}"><i class='bx bx-radio-circle'></i>Add Testimonial</a>
+                </li>
+            </ul>
+        </li>
     </ul>
     <!--end navigation-->
 </div>

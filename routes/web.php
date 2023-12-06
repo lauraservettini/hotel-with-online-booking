@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\RoomNumberController;
 use App\Http\Controllers\Backend\BookingController as BookContr;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\RoomListController;
+use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\UserDashboardController;
@@ -57,10 +58,6 @@ Route::middleware('auth')->group(function () {
     Route::controller(UserDashboardController::class)->group(function () {
         Route::get('/dashboard/booking', 'userBooking')->name('user.booking');
         Route::get('/dashboard/booking/{id}/invoice', 'userInvoice')->name('user.invoice');
-        // Route::post('/booking/store', 'storeUserBooking')->name('user.booking.store');
-        // Route::post('/booking/checkout/pay', 'storeCheckout')->name('checkout.store');
-        // Route::match(['get', 'post'], '/stripePay', [BookingController::class, 'stripePay'])->name('stripe.pay');
-        // Route::match(['get', 'post'], '/orderFailed', [BookingController::class, 'orderFailed'])->name('order.failed');
     });
 });
 
@@ -144,7 +141,17 @@ Route::middleware('auth', 'roles:admin')->group(function () {
     Route::controller(SettingsController::class)->group(function () {
         Route::get('/admin/smtp-settings', 'smtpSettings')->name('smtp.settings');
         Route::post('/admin/smtp-settings/update', 'updateSmtp')->name('update.smtp');
-        // Route::post('/admin/room-list/add', 'storeRoomList')->name('store.room.list');
+    });
+
+    // Testimonials All Route Group 
+    Route::controller(TestimonialController::class)->group(function () {
+        Route::get('/admin/testimonials', 'testimonials')->name('testimonials');
+        Route::get('/admin/testimonials/add', 'addTestimonial')->name('add.testimonial');
+        Route::post('/admin/testimonials/add', 'storeTestimonial')->name('post.add.testimonial');
+        Route::get('/admin/testimonials/update/{id}', 'updateTestimonial')->name('update.testimonial');
+        Route::post('/admin/testimonials/update/{id}', 'storeUpdateTestimonial')->name('store.update.testimonial');
+        Route::get('/admin/testimonials/delete/{id}', 'deleteTestimonial')->name('delete.testimonial');
+        // Route::post('/admin/testimonials/add', 'storeTestimonial')->name('post.add.testimonial');
     });
 });
 
