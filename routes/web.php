@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\UserDashboardController;
+use App\Http\Controllers\Frontend\BlogController as BlogContr;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -177,4 +178,9 @@ Route::controller(FrontendRoomController::class)->group(function () {
     Route::get('/booking/search', 'bookingSearch')->name('booking.search');
     Route::get('/booking/search/{id}', 'bookingSearchDetails')->name('search.room.details');
     Route::get('/booking/check-room-availability', 'checkRoomsAvailability')->name('check.room.availability');
+});
+
+// Frontend BlogController All Route Group
+Route::controller(BlogContr::class)->group(function () {
+    Route::get('/blog/details/{id}/{post_slug}', 'detailsBlogPost')->name('blog.post.details');
 });

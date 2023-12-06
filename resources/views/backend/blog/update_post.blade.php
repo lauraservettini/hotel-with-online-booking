@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="myeditorinstance" class="form-label">Description</label>
-                                    <textarea name="long_descr" class="form-control" id="myeditorinstance" rows="3" @error('post_title') is-invalid @enderror >{{!! $post->long_descr !!}}</textarea>
+                                    <textarea name="long_descr" class="form-control" id="myeditorinstance" rows="3" @error('post_title') is-invalid @enderror >{!! $post->long_descr !!}</textarea>
                                         @error('long_descr')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
