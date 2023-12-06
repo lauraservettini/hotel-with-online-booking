@@ -35,7 +35,7 @@ class BlogController extends Controller
     public function listBlogPost()
     {
         $categories = BlogCategory::latest()->get();
-        $posts = BlogPost::latest()->get();
+        $posts = BlogPost::latest()->paginate(3);
         $blogs = BlogPost::latest()->limit(3)->get();
 
         return view('frontend.blog.blog_list', compact('posts', 'categories', 'blogs'));

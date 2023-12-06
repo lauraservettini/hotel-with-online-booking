@@ -52,6 +52,14 @@
                                 </div>
                             </div>
                         @endforeach
+                        
+                        <div class="col-lg-12 col-md-12">
+                            <div class="pagination-area">
+
+                                {{ $posts->links('vendor.pagination.custom') }}
+
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-lg-4">
@@ -76,6 +84,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            
                             <div class="side-bar-widget">
                                 <h3 class="title">Recent Posts</h3>
                                 <div class="widget-popular-post">
