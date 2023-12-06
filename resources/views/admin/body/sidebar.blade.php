@@ -117,6 +117,8 @@
             <ul>
                 <li> <a href="{{ route('blog.category') }}"><i class='bx bx-radio-circle'></i>Blog Category</a>
                 </li>
+                <li> <a href="{{ route('blog.posts') }}"><i class='bx bx-radio-circle'></i>Blog Posts</a>
+                </li>
             </ul>
         </li>
     </ul>

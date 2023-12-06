@@ -161,7 +161,12 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::post('/admin/blog/category/add', 'addBlogCategory')->name('add.blog.category');
         Route::post('/admin/blog/category/update/{id}', 'updateBlogCategory')->name('update.blog.category');
         Route::get('/admin/blog/category/delete/{id}', 'deleteBlogCategory')->name('delete.blog.category');
-        // Route::post('/admin/smtp-settings/update', 'updateSmtp')->name('update.smtp');
+        Route::get('/admin/blog/posts', 'blogPosts')->name('blog.posts');
+        Route::get('/admin/blog/posts/add', 'addBlogPost')->name('add.blog.post');
+        Route::post('/admin/blog/posts/add', 'storeBlogPost')->name('store.blog.post');
+        Route::get('/admin/blog/posts/update/{id}', 'editBlogPost')->name('edit.blog.post');
+        Route::post('/admin/blog/posts/update/{id}', 'updateBlogPost')->name('update.blog.post');
+        Route::get('/admin/blog/posts/delete/{id}', 'deleteBlogPost')->name('delete.blog.post');
     });
 });
 
