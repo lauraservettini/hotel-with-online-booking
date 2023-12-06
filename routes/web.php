@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\BookingController as BookContr;
 use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\RoomListController;
 use App\Http\Controllers\Backend\TestimonialController;
+use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\UserDashboardController;
@@ -152,6 +153,15 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::post('/admin/testimonials/update/{id}', 'storeUpdateTestimonial')->name('store.update.testimonial');
         Route::get('/admin/testimonials/delete/{id}', 'deleteTestimonial')->name('delete.testimonial');
         // Route::post('/admin/testimonials/add', 'storeTestimonial')->name('post.add.testimonial');
+    });
+
+    // Blog All Route Group 
+    Route::controller(BlogController::class)->group(function () {
+        Route::get('/admin/blog/category', 'blogCategory')->name('blog.category');
+        Route::post('/admin/blog/category/add', 'addBlogCategory')->name('add.blog.category');
+        Route::post('/admin/blog/category/update/{id}', 'updateBlogCategory')->name('update.blog.category');
+        Route::get('/admin/blog/category/delete/{id}', 'deleteBlogCategory')->name('delete.blog.category');
+        // Route::post('/admin/smtp-settings/update', 'updateSmtp')->name('update.smtp');
     });
 });
 
