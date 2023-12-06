@@ -50,30 +50,6 @@
                                 {!! $post->long_descr !!}
                                 </p>
 
-                                <blockquote class="blockquote"> 
-                                    <p>
-                                        Awesome dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                        Ut enim ad minim veniam, quis nostrud exercitationaco laboris nisi ut aliquip commodo consequat. 
-                                    </p>
-                                </blockquote>
-                            </div>
-
-                            <div class="another-content">
-                                <div class="content-img">
-                                    <img src="assets/img/blog/blog-details-img2.jpg" alt="Images">
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eu eros sed tellus fringilla molestie vitae quis mauris.
-                                    Nunc fringilla nisi dui. Maecenas ornare et neque vel convallis. Pellentesque eu finibus augue. Proin quis gravida mauris.
-                                    Donec ullamcorper varius egestas. Suspendisse ante massa, posuere a ipsum eu, lacinia tincidunt neque. Pellentesque habitant
-                                    morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur laoreet in odio in placerat. 
-                                </p>
-                                <p>
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                    Excabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni 
-                                    dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, 
-                                    consectetur, adipisci velit
-                                </p>
                             </div>
 
                             <div class="comments-wrap">
@@ -164,7 +140,7 @@
                                     <ul>
                                         @foreach($categories as $category)
                                         <li>
-                                            <a href="#">{{ $category->category_name }}</a>
+                                            <a href="{{ url('blog/category/list/' . $category->id ) }}"> {{ $category->category_name   }}</a>
                                         </li>
                                         @endforeach
                                     </ul>
@@ -176,12 +152,12 @@
                                 <div class="widget-popular-post">
                                     @foreach($blogs as $blog)
                                     <article class="item">
-                                        <a href="blog-details.html" class="thumb">
+                                        <a href="{{ url('blog/details/' . $blog->id . '/' . $blog->post_slug) }}" class="thumb">
                                             <img src="{{ url($blog->post_image) }}" alt="Images" style="width: 80px; height: 80px">
-                            </a>
+                                        </a>
                                         <div class="info">
                                             <h4 class="title-text">
-                                                <a href="blog-details.html">{{ $blog->post_title }}</a>
+                                                <a href="{{ url('blog/details/' . $blog->id . '/' . $blog->post_slug) }}">{{ $blog->post_title }}</a>
                                             </h4>
                                             <ul>
                                                 <li>

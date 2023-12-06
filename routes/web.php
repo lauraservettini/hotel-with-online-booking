@@ -183,4 +183,6 @@ Route::controller(FrontendRoomController::class)->group(function () {
 // Frontend BlogController All Route Group
 Route::controller(BlogContr::class)->group(function () {
     Route::get('/blog/details/{id}/{post_slug}', 'detailsBlogPost')->name('blog.post.details');
+    Route::get('blog/category/list/{id}', 'categoryBlogPost')->name('blog.post.category');
+    Route::get('/blog/list', 'listBlogPost')->name('blog.list');
 });
