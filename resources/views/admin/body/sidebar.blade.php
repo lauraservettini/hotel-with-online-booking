@@ -121,6 +121,18 @@
                 </li>
             </ul>
         </li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-support"></i>
+                </div>
+                <div class="menu-title">Manage Comments</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('comments') }}"><i class='bx bx-radio-circle'></i>All Comments</a>
+                </li>
+            </ul>
+        </li>
     </ul>
     <!--end navigation-->
 </div>

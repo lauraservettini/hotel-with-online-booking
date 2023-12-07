@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\SettingsController;
 use App\Http\Controllers\Backend\RoomListController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\CommentController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\UserDashboardController;
@@ -169,6 +170,12 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::post('/admin/blog/posts/update/{id}', 'updateBlogPost')->name('update.blog.post');
         Route::get('/admin/blog/posts/delete/{id}', 'deleteBlogPost')->name('delete.blog.post');
     });
+
+    // Backend CommentController All Route Group
+    Route::controller(CommentController::class)->group(function () {
+        Route::get('admin/comments/all', 'comments')->name('comments');
+        Route::post('admin/comments/update', 'updateStatus')->name('update.comment.status');
+    });
 });
 
 // Frontend All Route Group
@@ -185,4 +192,9 @@ Route::controller(BlogContr::class)->group(function () {
     Route::get('/blog/details/{id}/{post_slug}', 'detailsBlogPost')->name('blog.post.details');
     Route::get('blog/category/list/{id}', 'categoryBlogPost')->name('blog.post.category');
     Route::get('/blog/list', 'listBlogPost')->name('blog.list');
+});
+
+// Frontend CommentController All Route Group
+Route::controller(CommentController::class)->group(function () {
+    Route::post('/blog/comment/add', 'addComment')->name('add.comment');
 });
