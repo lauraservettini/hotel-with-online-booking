@@ -130,6 +130,9 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::post('/admin/booking/date/{id}', 'updateBookingDate')->name('update.booking.date');
         Route::get('/admin/download/{id}/download-invoice', 'downloadInvoice')->name('download.invoice');
 
+        // Notification All Route Group
+        Route::post('/admin/mark-notification-as-read/{id}', 'markNotificationAsRead');
+
 
         // Assign Room All Route Group
         Route::get('/admin/booking/assignRoom/{id}', 'assignRoom')->name('assign.room');
@@ -160,7 +163,6 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::get('/admin/testimonials/update/{id}', 'updateTestimonial')->name('update.testimonial');
         Route::post('/admin/testimonials/update/{id}', 'storeUpdateTestimonial')->name('store.update.testimonial');
         Route::get('/admin/testimonials/delete/{id}', 'deleteTestimonial')->name('delete.testimonial');
-        // Route::post('/admin/testimonials/add', 'storeTestimonial')->name('post.add.testimonial');
     });
 
     // Blog All Route Group 

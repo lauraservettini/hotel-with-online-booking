@@ -6,12 +6,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Booking;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view("admin.index");
+        $bookings = Booking::latest()->get();
+
+        $pendings = Booking::where('status', '0')->get();
+        $complete = Booking::where('status', '1')->get();
+
+        $totalPriceSum = Booking::sum('total_price');
+
+        $today = Carbon::now()->todateString();
+        $todayPriceSum = Booking::whereDate('created_at', $today)->sum('total_price');
+
+        $allBookings = Booking::orderBy('id', 'desc')->limit(10)->get();
+
+        return view("admin.index", compact('bookings', 'pendings', 'complete', 'totalPriceSum', 'allBookings', 'todayPriceSum'));
     }
 
     public function logout(Request $request)

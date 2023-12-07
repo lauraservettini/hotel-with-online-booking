@@ -10,7 +10,11 @@ use App\Models\Booking;
 use App\Models\RoomBookingList;
 use App\Models\RoomNumber;
 use App\Mail\BookConfirm;
+use App\Notifications\BookingComplete;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -195,5 +199,18 @@ class BookingController extends Controller
                 'chroot' => public_path(),
             ]);
         return $pdf->download('invoice-booking-' . $booking->code . '.pdf');
+    }
+
+    public function markNotificationAsRead(Request $request, string $id)
+    {
+        $notification = Auth::user()->notifications()->where('id', $id)->first();
+
+        if ($notification) {
+            $notification->markAsRead();
+        }
+
+        return response()->json([
+            'count' => Auth::user()->unreadNotifications()->count()
+        ]);
     }
 }

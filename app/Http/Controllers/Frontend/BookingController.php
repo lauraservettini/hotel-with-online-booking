@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Room;
+use App\Models\User;
 use App\Models\RoomBookedDate;
 use App\Models\Booking;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Stripe\Stripe;
+use App\Notifications\BookingComplete;
+use Illuminate\Support\Facades\Notification;
 
 class BookingController extends Controller
 {
@@ -96,6 +99,8 @@ class BookingController extends Controller
             "payment_method" => "required"
         ]);
 
+        $user = User::where('role', 'admin')->get();
+
         $bookingData = Session::get('book_date');
         $room = Room::find($bookingData['room_id']);
 
@@ -140,19 +145,6 @@ class BookingController extends Controller
         $dataToSave->status = 0;
         $dataToSave->save();
 
-        // salva i dati nella RoomBookedDate
-        $startDate = date('Y-m-d', strtotime($bookingData['check_in']));
-        $endDate = date('Y-m-d', strtotime($bookingData['check_out']));
-        $lastDate = Carbon::create($endDate)->subDay();
-        $dayPeriod = CarbonPeriod::create($startDate, $lastDate);
-
-        foreach ($dayPeriod as $period) {
-            $bookedDates = new RoomBookedDate();
-            $bookedDates->booking_id = $dataToSave->id;
-            $bookedDates->room_id = $bookingData['room_id'];
-            $bookedDates->book_date = date('Y-m-d', strtotime($period));
-            $bookedDates->save();
-        }
 
         if ($request->payment_method == 'Stripe') {
             var_dump(env('STRIPE_SECRET'));
@@ -196,11 +188,21 @@ class BookingController extends Controller
             exit();
         }
 
-        $dataToSave->save();
+        // salva i dati nella RoomBookedDate
+        $startDate = date('Y-m-d', strtotime($bookingData['check_in']));
+        $endDate = date('Y-m-d', strtotime($bookingData['check_out']));
+        $lastDate = Carbon::create($endDate)->subDay();
+        $dayPeriod = CarbonPeriod::create($startDate, $lastDate);
 
-        foreach ($bookedDates as $bookedDate) {
-            $bookedDate->save();
+        foreach ($dayPeriod as $period) {
+            $bookedDates = new RoomBookedDate();
+            $bookedDates->booking_id = $dataToSave->id;
+            $bookedDates->room_id = $bookingData['room_id'];
+            $bookedDates->book_date = date('Y-m-d', strtotime($period));
+            $bookedDates->save();
         }
+
+        $dataToSave->save();
 
         Session::forget('book_date');
 
@@ -208,6 +210,8 @@ class BookingController extends Controller
             'message' => "Order Completed Successfully!",
             'alert-type' => 'success'
         );
+
+        Notification::send($user, new BookingComplete($request->name));
 
         return redirect()->route('home')->with($notification);
     }
