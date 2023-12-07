@@ -112,7 +112,7 @@
                                 </a>
                             </li> 
                             <li>
-                                <a href="contact.html" target="_blank">
+                                <a href="{{ route('contact') }}" target="_blank">
                                     <i class='bx bx-caret-right'></i>
                                     Contact Us
                                 </a>

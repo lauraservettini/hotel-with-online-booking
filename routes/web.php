@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\BlogController as BlogContr;
 use App\Http\Controllers\Frontend\GalleryController as GalleryContr;
+use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -198,6 +199,11 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::get('/admin/gallery/delete/{id}', 'deleteGallery')->name('delete.gallery');
         Route::post('/admin/gallery/delete-selected', 'deleteSelectedGallery')->name('delete.selected.gallery');
     });
+
+    // Backend ContactController All Route Group
+    Route::controller(ContactController::class)->group(function () {
+        Route::get('/admin/contact', 'adminContact')->name('admin.contact');
+    });
 });
 
 // Frontend All Route Group
@@ -224,4 +230,10 @@ Route::controller(CommentController::class)->group(function () {
 // Frontend GalleryController All Route Group
 Route::controller(GalleryContr::class)->group(function () {
     Route::get('/gallery/show', 'showGallery')->name('show.gallery');
+});
+
+// Frontend ContactController All Route Group
+Route::controller(ContactController::class)->group(function () {
+    Route::get('/contact', 'contact')->name('contact');
+    Route::post('/contact/store', 'storeContact')->name('store.contact');
 });
