@@ -1,3 +1,7 @@
+@php
+    $setting = App\Models\SiteSettings::find(1);
+@endphp
+
 <header class="top-header top-header-bg">
     <div class="container">
         <div class="row align-items-center">
@@ -17,6 +21,14 @@
             <div class="col-lg-9 col-md-10">
                 <div class="header-right">
                     <ul>
+                        <li>
+                            <i class='bx bx-home-alt'></i>
+                            <a href="#">{{ $setting->address }}</a>
+                        </li>
+                        <li>
+                            <i class='bx bx-phone-call'></i>
+                            <a href="tel:{{ $setting->phone }}">{{ $setting->phone }}</a>
+                        </li>
                         @auth
                             <li>
                                 <i class='bx bxs-user-pin'></i>

@@ -2,7 +2,7 @@
     $testimonials = App\Models\Testimonial::latest()->get();
 @endphp
 
-<div class="testimonials-area-three pb-70">
+<div id="testimonials" class="testimonials-area-three pb-70">
     <div class="container">
         <div class="section-title text-center">
             <span class="sp-color">TESTIMONIAL</span>

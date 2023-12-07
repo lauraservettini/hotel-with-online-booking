@@ -145,6 +145,8 @@ Route::middleware('auth', 'roles:admin')->group(function () {
     Route::controller(SettingsController::class)->group(function () {
         Route::get('/admin/smtp-settings', 'smtpSettings')->name('smtp.settings');
         Route::post('/admin/smtp-settings/update', 'updateSmtp')->name('update.smtp');
+        Route::get('/admin/site-settings', 'siteSettings')->name('site.settings');
+        Route::post('/admin/site-settings/update', 'updateSiteSettings')->name('update.site.settings');
     });
 
     // Testimonials All Route Group 

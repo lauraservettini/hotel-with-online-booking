@@ -13,97 +13,101 @@
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">SMTP Settings</li>
+                    <li class="breadcrumb-item active" aria-current="page">Site Settings</li>
                 </ol>
             </nav>
         </div>
     </div>
     <!--end breadcrumb-->
+
     <div class="container">
         <div class="main-body">
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
-                    <form action="{{ route('update.smtp') }}" method="POST">
+                    <form action="{{ route('update.site.settings') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="card-body">
-                                <input type="hidden" name="id" class="form-control" value="{{ (!empty($smtp->id)) ? $smtp->id : ""; }}">
+                                <input type="hidden" name="id" class="form-control" value="{{ (!empty($site->id)) ? $site->id : '' }}">
                             <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <h6 class="mb-0">Mailer</h6>
+                                    <h6 class="mb-0">Phone</h6>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="text" name="mailer" class="form-control" value="{{ (!empty($smtp->mailer)) ? $smtp->mailer : ""; }}" @error('mailer') is-invalid @enderror />
-                                    @error('mailer')
+                                    <input type="text" name="phone" class="form-control" value="{{ (!empty($site->phone)) ? $site->phone : '' }}" @error('phone') is-invalid @enderror />
+                                    @error('phone')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <h6 class="mb-0">Host</h6>
+                                    <h6 class="mb-0">Email</h6>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="text" name="host" class="form-control" value="{{ (!empty($smtp->host)) ? $smtp->host : ""; }}" @error('host') is-invalid @enderror />
-                                    @error('host')
+                                    <input type="text" name="email" class="form-control" value="{{ (!empty($site->email)) ? $site->email : '' }}" @error('email') is-invalid @enderror />
+                                    @error('email')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <h6 class="mb-0">Port</h6>
+                                    <h6 class="mb-0">Facebook</h6>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="text" name="port" class="form-control" value="{{ (!empty($smtp->port)) ? $smtp->port : ""; }}" @error('port') is-invalid @enderror />
-                                    @error('port')
+                                    <input type="text" name="facebook" class="form-control" value="{{ (!empty($site->facebook)) ? $site->facebook : '' }}" @error('facebook') is-invalid @enderror />
+                                    @error('facebook')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <h6 class="mb-0">Username</h6>
+                                    <h6 class="mb-0">Twitter</h6>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="text" name="username" class="form-control" value="{{ (!empty($smtp->username)) ? $smtp->username : ""; }}" @error('username') is-invalid @enderror />
-                                    @error('username')
+                                    <input type="text" name="twitter" class="form-control" value="{{ (!empty($site->twitter)) ? $site->twitter : '' }}" @error('twitter') is-invalid @enderror />
+                                    @error('twitter')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <h6 class="mb-0">Password</h6>
+                                    <h6 class="mb-0">Address</h6>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="text" name="password" class="form-control" value="{{ (!empty($smtp->password)) ? $smtp->password : ""; }}" @error('password') is-invalid @enderror />
-                                    @error('password')
+                                    <input type="text" name="address" class="form-control" value="{{ (!empty($site->address)) ? $site->address : '' }}" @error('address') is-invalid @enderror />
+                                    @error('address')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
+                            
                             <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <h6 class="mb-0">Encryption</h6>
+                                    <h6 class="mb-0">Copyright</h6>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="text" name="encryption" class="form-control" value="{{ (!empty($smtp->encryption)) ? $smtp->encryption : ""; }}" @error('encryption') is-invalid @enderror />
-                                    @error('encryption')
+                                    <input type="text" name="copyright" class="form-control" value="{{ (!empty($site->copyright)) ? $site->copyright : '' }}" @error('copyright') is-invalid @enderror />
+                                    @error('copyright')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
-                           <div class="row mb-3">
+
+                            <div class="row mb-3">
                                 <div class="col-md-3">
-                                    <h6 class="mb-0">From Address</h6>
+                                    <h6 class="mb-0">Logo</h6>
                                 </div>
                                 <div class="col-md-9 text-secondary">
-                                    <input type="text" name="from_address" class="form-control" value="{{ (!empty($smtp->from_address)) ? $smtp->from_address : ""; }}" @error('from_address') is-invalid @enderror />
-                                    @error('from_address')
+                                    <input type="file" id="image" name="logo" class="form-control" @error('logo') is-invalid @enderror />
+                                    @error('logo')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
+                                    <img id='showImage' src="{{ (!empty($site->logo)) ? asset($site->logo) : url('upload/no_image.jpg') }}" alt="" style="width:100px; height:100px;">
                                 </div>
                             </div>
                            
@@ -121,5 +125,17 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#image').change(function(e){
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#showImage').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(e.target.files['0']);
+        });
+    });
+</script>
 
 @endsection

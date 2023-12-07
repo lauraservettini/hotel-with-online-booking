@@ -1,3 +1,7 @@
+@php
+    $setting = App\Models\SiteSettings::find(1);
+@endphp
+
 <footer class="footer-area footer-bg">
     <div class="container">
         <div class="footer-top pt-100 pb-70">
@@ -5,8 +9,8 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-widget">
                         <div class="footer-logo">
-                            <a href="index.html">
-                                <img src="{{ asset('frontend/assets/img/logos/footer-logo1.png')}}" alt="Images">
+                            <a href="{{ route('home') }}">
+                                <img src="{{ !empty($setting->logo) ? asset($setting->logo) : url('upload/no_image.jpg') }}" alt="Images">
                             </a>
                         </div>
                         <p>
@@ -15,15 +19,15 @@
                         <ul class="footer-list-contact">
                             <li>
                                 <i class='bx bx-home-alt'></i>
-                                <a href="#">123 Stanton, Virginia, USA</a>
+                                <a href="#">{{ $setting->address }}</a>
                             </li>
                             <li>
                                 <i class='bx bx-phone-call'></i>
-                                <a href="tel:+1-(123)-456-7890">+1 (123) 456 7890</a>
+                                <a href="tel:{{ $setting->phone }}">{{ $setting->phone }}</a>
                             </li>
                             <li>
                                 <i class='bx bx-envelope'></i>
-                                <a href="mailto:hello@atoli.com">hello@atoli.com</a>
+                                <a href="mailto:{{ $setting->email }}">{{ $setting->email }}</a>
                             </li>
                         </ul>
                     </div>
@@ -78,13 +82,13 @@
                         <h3>Useful Links</h3>
                         <ul class="footer-list">
                             <li>
-                                <a href="index.html" target="_blank">
+                                <a href="{{ route('home') }}" target="_blank">
                                     <i class='bx bx-caret-right'></i>
                                     Home
                                 </a>
                             </li> 
                             <li>
-                                <a href="blog-1.html" target="_blank">
+                                <a href="{{ route('blog.list') }}" target="_blank">
                                     <i class='bx bx-caret-right'></i>
                                     Blog
                                 </a>
@@ -96,7 +100,7 @@
                                 </a>
                             </li> 
                             <li>
-                                <a href="testimonials.html" target="_blank">
+                                <a href="#testimonials">
                                     <i class='bx bx-caret-right'></i>
                                     Testimonials
                                 </a>
@@ -151,10 +155,7 @@
             <div class="row">
                 <div class="col-lg-8 col-md-8">
                     <div class="copy-right-text text-align1">
-                        <p>
-                            Copyright @<script>document.write(new Date().getFullYear())</script> Atoli. All Rights Reserved by 
-                            <a href="https://hibootstrap.com/" target="_blank">HiBootstrap</a> 
-                        </p>
+                        <p>{{ $setting->copyright }}</p>
                     </div>
                 </div>
 
@@ -162,19 +163,10 @@
                     <div class="social-icon text-align2">
                         <ul class="social-link">
                             <li>
-                                <a href="#" target="_blank"><i class='bx bxl-facebook'></i></a>
+                                <a href="{{ $setting->facebook }}" target="_blank"><i class='bx bxl-facebook'></i></a>
                             </li> 
                             <li>
-                                <a href="#" target="_blank"><i class='bx bxl-twitter'></i></a>
-                            </li> 
-                            <li>
-                                <a href="#" target="_blank"><i class='bx bxl-instagram'></i></a>
-                            </li> 
-                            <li>
-                                <a href="#" target="_blank"><i class='bx bxl-pinterest-alt'></i></a>
-                            </li> 
-                            <li>
-                                <a href="#" target="_blank"><i class='bx bxl-youtube'></i></a>
+                                <a href="{{ $setting->twitter }}" target="_blank"><i class='bx bxl-twitter'></i></a>
                             </li> 
                         </ul>
                     </div>

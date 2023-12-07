@@ -21,7 +21,7 @@
                             <li><i class='bx bx-message-alt-dots'></i>15K</li>
                         </ul>
                         <h3>
-                            <a href="{{ url('blog/details/' . $post->post_slug) }} "> $post->post_title  }}</a>
+                            <a href="{{ url('blog/details/' . $post->post_slug) }} ">{{ $post->post_title  }}</a>
                         </h3>
                         <p> {{ $post->short_descr }}</p>
                         <a href="{{ url('blog/details/' . $post->id . '/' . $post->post_slug) }}" class="read-btn">
