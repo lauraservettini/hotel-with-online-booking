@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\BlogController as BlogContr;
+use App\Http\Controllers\Frontend\GalleryController as GalleryContr;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -218,4 +219,9 @@ Route::controller(BlogContr::class)->group(function () {
 // Frontend CommentController All Route Group
 Route::controller(CommentController::class)->group(function () {
     Route::post('/blog/comment/add', 'addComment')->name('add.comment');
+});
+
+// Frontend GalleryController All Route Group
+Route::controller(GalleryContr::class)->group(function () {
+    Route::get('/gallery/show', 'showGallery')->name('show.gallery');
 });

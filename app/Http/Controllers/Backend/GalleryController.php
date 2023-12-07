@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use Carbon\Carbon;
 
 class GalleryController extends Controller
 {
