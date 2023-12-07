@@ -92,17 +92,7 @@ class RoomController extends Controller
         if ($room->save()) {
             $files = $request->multi_image;
             if (!empty($files)) {
-                // Ricerca e cancella le immagini salvate nella tabella
-                $allImages = MultiImage::where('room_id', $id)->get()->toArray();
-                MultiImage::where('room_id', $id)->delete();
-
-                // Cancella i file nella cartella se esistenti
-                $oldImages = $allImages;
-                foreach ($oldImages as $oldImage) {
-                    @unlink(public_path('upload/room_images/multi_img/' . $oldImage['multi_image']));
-                }
-
-                // 
+                // salva i file in Multi Images
                 foreach ($files as $file) {
                     $imgName = date('YmdHi') . $file->getClientOriginalName();
                     $file->move('upload/room_images/multi_img', $imgName);

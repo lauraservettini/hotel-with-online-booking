@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\CommentController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\GalleryController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\UserDashboardController;
@@ -176,14 +177,25 @@ Route::middleware('auth', 'roles:admin')->group(function () {
 
     // Backend CommentController All Route Group
     Route::controller(CommentController::class)->group(function () {
-        Route::get('admin/comments/all', 'comments')->name('comments');
-        Route::post('admin/comments/update', 'updateStatus')->name('update.comment.status');
+        Route::get('/admin/comments/all', 'comments')->name('comments');
+        Route::post('/admin/comments/update', 'updateStatus')->name('update.comment.status');
     });
 
     // Backend ReportController All Route Group
     Route::controller(ReportController::class)->group(function () {
-        Route::get('admin/report/booking', 'bookingReport')->name('booking.report');
-        Route::post('admin/report/booking/search', 'searchBooking')->name('search.booking.by.date');
+        Route::get('/admin/report/booking', 'bookingReport')->name('booking.report');
+        Route::post('/admin/report/booking/search', 'searchBooking')->name('search.booking.by.date');
+    });
+
+    // Backend GalleryController All Route Group
+    Route::controller(GalleryController::class)->group(function () {
+        Route::get('/admin/gallery', 'gallery')->name('gallery');
+        Route::get('/admin/gallery/add', 'addGallery')->name('add.gallery');
+        Route::post('/admin/gallery/add', 'storeGallery')->name('post.add.gallery');
+        Route::get('/admin/gallery/update/{id}', 'editGallery')->name('edit.gallery');
+        Route::post('/admin/gallery/update/{id}', 'updateGallery')->name('update.gallery');
+        Route::get('/admin/gallery/delete/{id}', 'deleteGallery')->name('delete.gallery');
+        Route::post('/admin/gallery/delete-selected', 'deleteSelectedGallery')->name('delete.selected.gallery');
     });
 });
 
@@ -199,7 +211,7 @@ Route::controller(FrontendRoomController::class)->group(function () {
 // Frontend BlogController All Route Group
 Route::controller(BlogContr::class)->group(function () {
     Route::get('/blog/details/{id}/{post_slug}', 'detailsBlogPost')->name('blog.post.details');
-    Route::get('blog/category/list/{id}', 'categoryBlogPost')->name('blog.post.category');
+    Route::get('/blog/category/list/{id}', 'categoryBlogPost')->name('blog.post.category');
     Route::get('/blog/list', 'listBlogPost')->name('blog.list');
 });
 

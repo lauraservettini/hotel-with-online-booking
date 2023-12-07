@@ -303,6 +303,8 @@
         {
             var data = $(this)[0].files; //this file data
              
+            $('#preview_img').empty();
+            
             $.each(data, function(index, file){ //loop though each file
                 if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){ //check supported file type
                     var fRead = new FileReader(); //new filereader

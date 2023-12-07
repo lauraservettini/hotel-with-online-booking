@@ -145,6 +145,18 @@
                 </li>
             </ul>
         </li>
+
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-support"></i>
+                </div>
+                <div class="menu-title">Gallery</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('gallery') }}"><i class='bx bx-radio-circle'></i>All Gallery</a>
+                </li>
+            </ul>
+        </li>
     </ul>
     <!--end navigation-->
 </div>
