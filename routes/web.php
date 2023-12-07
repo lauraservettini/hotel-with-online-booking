@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\RoomListController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\CommentController;
+use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\UserDashboardController;
@@ -175,6 +176,12 @@ Route::middleware('auth', 'roles:admin')->group(function () {
     Route::controller(CommentController::class)->group(function () {
         Route::get('admin/comments/all', 'comments')->name('comments');
         Route::post('admin/comments/update', 'updateStatus')->name('update.comment.status');
+    });
+
+    // Backend ReportController All Route Group
+    Route::controller(ReportController::class)->group(function () {
+        Route::get('admin/report/booking', 'bookingReport')->name('booking.report');
+        Route::post('admin/report/booking/search', 'searchBooking')->name('search.booking.by.date');
     });
 });
 

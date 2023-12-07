@@ -43,7 +43,6 @@
                             <th>Post Name</th>
                             <th>Message</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>

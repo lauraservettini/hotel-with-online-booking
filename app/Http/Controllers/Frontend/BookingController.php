@@ -12,8 +12,6 @@ use App\Models\Booking;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Stripe\Stripe;
-use Stripe\StripeClient;
-use Stripe\Charge;
 
 class BookingController extends Controller
 {
