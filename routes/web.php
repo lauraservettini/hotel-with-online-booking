@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\CommentController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\GalleryController;
+use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Frontend\FrontendRoomController;
 use App\Http\Controllers\Frontend\BookingController;
 use App\Http\Controllers\Frontend\UserDashboardController;
@@ -205,6 +206,16 @@ Route::middleware('auth', 'roles:admin')->group(function () {
     // Backend ContactController All Route Group
     Route::controller(ContactController::class)->group(function () {
         Route::get('/admin/contact', 'adminContact')->name('admin.contact');
+    });
+
+    // Backend RoleController All Route Group
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('/admin/permissions', 'permissions')->name('permissions');
+        Route::get('/admin/permissions/add', 'addPermission')->name('add.permission');
+        Route::post('/admin/permissions/add', 'storePermission')->name('post.add.permission');
+        Route::get('/admin/permissions/update/{id}', 'editPermission')->name('edit.permission');
+        Route::post('/admin/permissions/update/{id}', 'updatePermission')->name('update.permission');
+        Route::get('/admin/permissions/delete/{id}', 'deletePermission')->name('delete.permission');
     });
 });
 
