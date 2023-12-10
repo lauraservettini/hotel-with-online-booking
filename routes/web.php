@@ -210,6 +210,7 @@ Route::middleware('auth', 'roles:admin')->group(function () {
 
     // Backend RoleController All Route Group
     Route::controller(RoleController::class)->group(function () {
+        // Permissions All Route
         Route::get('/admin/permissions', 'permissions')->name('permissions');
         Route::get('/admin/permissions/add', 'addPermission')->name('add.permission');
         Route::post('/admin/permissions/add', 'storePermission')->name('post.add.permission');
@@ -220,6 +221,20 @@ Route::middleware('auth', 'roles:admin')->group(function () {
         Route::post('/admin/permissions/import', 'storeImportPermission')->name('post.import.permission');
         Route::get('/admin/permissions/export', 'exportPermission')->name('export.permission');
         Route::get('/admin/permissions/download', 'downloadPermission')->name('download.permission');
+
+        // Roles All Route
+        Route::get('/admin/roles', 'roles')->name('roles');
+        Route::get('/admin/roles/add', 'addRole')->name('add.role');
+        Route::post('/admin/roles/add', 'storeRole')->name('post.add.role');
+        Route::get('/admin/roles/update/{id}', 'editRole')->name('edit.role');
+        Route::post('/admin/roles/update/{id}', 'updateRole')->name('update.role');
+        Route::get('/admin/roles/delete/{id}', 'deleteRole')->name('delete.role');
+        Route::get('/admin/roles/permissions/add', 'addRolesPermission')->name('add.roles.permission');
+        Route::post('/admin/roles/permissions/add', 'storeRolePermissions')->name('store.roles.permission');
+        Route::get('/admin/roles//permissions', 'rolesPermission')->name('roles.permission');
+        Route::get('/admin/roles/permissions/update/{id}', 'adminRolesPermission')->name('admin.roles.permission');
+        Route::post('/admin/roles/permissions/update/{id}', 'updateRolePermissions')->name('update.roles.permission');
+        Route::get('/admin/roles/permissions/delete/{id}', 'deleteRolePermissions')->name('delete.role.permissions');
     });
 });
 
