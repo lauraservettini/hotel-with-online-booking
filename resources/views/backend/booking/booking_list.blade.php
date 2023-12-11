@@ -17,7 +17,9 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
+                @if(Auth::user()->can('booking.add'))
                 <a href="{{ route('add.team')}}" class="btn btn-primary px-5">Add Booking </a>
+                @endif
                 
             </div>
         </div>
@@ -72,7 +74,9 @@
                             </td>
 
                             <td>
+                                @if(Auth::user()->can('booking.add'))
                                 <a href="" id="delete" class="btn btn-danger px-3 radius-30">Delete</a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

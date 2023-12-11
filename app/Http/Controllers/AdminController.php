@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Booking;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -126,5 +127,107 @@ class AdminController extends Controller
         );
 
         return redirect()->back()->with($notification);
+    }
+
+    public function admin()
+    {
+        $admins = User::where('role', 'admin')->get();
+
+        return view('backend.admin.all_admins', compact('admins'));
+    }
+
+    public function addAdmin()
+    {
+        $roles = Role::all();
+
+        return view('backend.admin.add_admin', compact('roles'));
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        //Validation
+        $request->validate([
+            "name" => "required",
+            "email" => "required",
+            "password" => "required",
+            "role" => "required"
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->password = Hash::make($request->password);
+        $user->role = "admin";
+        $user->status = "active";
+        $user->save();
+
+        if ($request->role) {
+            $role = Role::find($request->role);
+            $user->assignRole($role->name);
+        }
+        // invia notifica
+        $notification = array(
+            'message' => 'Admin Added Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin')->with($notification);
+    }
+
+    public function editAdmin(int $id)
+    {
+        $admin = User::find($id);
+        $roles = Role::all();
+
+        return view('backend.admin.update_admin', compact('admin', 'roles'));
+    }
+
+    public function updateAdmin(Request $request, int $id)
+    {
+        //Validation
+        $request->validate([
+            "name" => "required",
+            "email" => "required",
+            "role" => "required"
+        ]);
+
+        $user = User::find($id);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->role = 'admin';
+        $user->status = 'active';
+        $user->save();
+
+        $user->roles()->detach();
+        if ($request->role) {
+            $role = Role::find($request->role);
+            $user->assignRole($role->name);
+        }
+
+        // invia notifica
+        $notification = array(
+            'message' => 'Admin Updated Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin')->with($notification);
+    }
+
+    public function deleteAdmin(int $id)
+    {
+        $admin = User::find($id)->delete();
+
+        // invia notifica
+        $notification = array(
+            'message' => 'Admin Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('admin')->with($notification);
     }
 }

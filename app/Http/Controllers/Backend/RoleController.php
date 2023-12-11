@@ -247,7 +247,6 @@ class RoleController extends Controller
     {
         //Validation
         $request->validate([
-            "role_id" => "required",
             "permission" => "required"
         ]);
 

@@ -10,20 +10,19 @@
                 <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Testimonials</li>
+                    <li class="breadcrumb-item active" aria-current="page">Admin</li>
                 </ol>
             </nav>
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <a href="{{ route('add.testimonial')}}" class="btn btn-primary px-5">Add Testimonials </a>
-                
+                <a href="{{ route('add.admin')}}" class="btn btn-primary px-5">Add Admin</a>
             </div>
         </div>
     </div>
     <!--end breadcrumb-->
 
-    <h6 class="mb-0 text-uppercase">All Testimonials</h6>
+    <h6 class="mb-0 text-uppercase">All Admins</h6>
     <hr/>
     <div class="card">
         <div class="card-body">
@@ -34,24 +33,28 @@
                             <th>Serial N.</th>
                             <th>Image</th>
                             <th>Name</th>
-                            <th>City</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Role</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($testimonials as $key => $testimonial)
+                        @foreach($admins as $key => $admin)
                         <tr>
                             <td>{{ $key + 1 }}</td>
-                            <td><img src="{{asset($testimonial->image) }}" alt="{{ $testimonial->name }}" style="width:40px; height:40px"></td>
-                            <td>{{ $testimonial->name }}</td>
-                            <td>{{ $testimonial->city }}</td>
+                            <td><img src="{{ !empty($admin->photo) ? url('upload/admin_images/' . $admin->photo) : url('upload/no_images.jpg') }}" width="50px" height="40px"></td>
+                            <td>{{ $admin->name }}</td>
+                            <td>{{ $admin->email }}</td>
+                            <td>{{ $admin->phone }}</td>
                             <td>
-                                @if(Auth::user()->can('testimonial.edit'))
-                                <a href="{{ route('update.testimonial', $testimonial->id)}}" class="btn btn-warning px-3 radius-30">Edit</a>
-                                @endif
-                                @if(Auth::user()->can('testimonial.delete'))
-                                <a href="{{ route('delete.testimonial', $testimonial->id)}}" id="delete" class="btn btn-danger px-3 radius-30">Delete</a>
-                                @endif
+                            @foreach($admin->roles as $role)
+                                <span class="badge badge-pill bg-danger">{{ $role->name }}</span>
+                            @endforeach
+                            </td>
+                            <td>
+                                <a href="{{ route('edit.admin', $admin->id) }}" class="btn btn-warning px-3 radius-30">Edit</a>
+                                <a href="{{ route('delete.admin', $admin->id) }}" id="delete" class="btn btn-danger px-3 radius-30">Delete</a>
                             </td>
                         </tr>
                         @endforeach
