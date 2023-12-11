@@ -25,7 +25,7 @@
         <div class="inner-title">
             <ul>
                 <li>
-                    <a href="index.html">Home</a>
+                    <a href="{{ route('home')}}">Home</a>
                 </li>
                 <li><i class="bx bx-chevron-right"></i></li>
                 <li>User Dashboard</li>
@@ -63,7 +63,7 @@
                                             class="card-title"
                                             style="font-size: 45px"
                                         >
-                                            3 Total
+                                            {{ $bookings }} Total
                                         </h1>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                                             class="card-title"
                                             style="font-size: 45px"
                                         >
-                                            3 Pending
+                                            {{ $pending }} Pending
                                         </h1>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                             class="card-title"
                                             style="font-size: 45px"
                                         >
-                                            3 Complete
+                                            {{ $complete }} Complete
                                         </h1>
                                     </div>
                                 </div>

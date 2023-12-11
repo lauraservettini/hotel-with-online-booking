@@ -2,7 +2,7 @@
     $bookarea = App\Models\BookArea::find(1);
 @endphp
 
-<div class="book-area-two pt-100 pb-70">
+<div class="book-area-two pt-100 pb-70 bg-light">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">

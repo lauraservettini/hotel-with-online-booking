@@ -10,16 +10,12 @@ use App\Models\Booking;
 use App\Models\RoomBookingList;
 use App\Models\RoomNumber;
 use App\Mail\BookConfirm;
-use App\Notifications\BookingComplete;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-use function Ramsey\Uuid\v1;
 
 class BookingController extends Controller
 {

@@ -35,15 +35,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+require __DIR__ . '/auth.php';
 
 Route::get('/', [UserController::class, 'home'])->name('home');
 
-Route::get('/dashboard', function () {
-    return view('frontend.dashboard.user_dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     // Auth routes
@@ -69,7 +65,6 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-require __DIR__ . '/auth.php';
 
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
 

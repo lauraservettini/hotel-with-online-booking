@@ -110,14 +110,6 @@
 
                     <div class="col-lg-4">
                         <div class="side-bar-wrap">
-                            <div class="search-widget">
-                                <form class="search-form">
-                                    <input type="search" class="form-control" placeholder="Search...">
-                                    <button type="submit">
-                                        <i class="bx bx-search"></i>
-                                    </button>
-                                </form>
-                            </div>
 
                             <div class="services-bar-widget">
                                 <h3 class="title">Blog Category</h3>

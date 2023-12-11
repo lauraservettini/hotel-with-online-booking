@@ -8,7 +8,7 @@
         <div class="inner-title">
             <ul>
                 <li>
-                    <a href="index.html">Home</a>
+                    <a href="{{ route('home') }}">Home</a>
                 </li>
                 <li><i class='bx bx-chevron-right'></i></li>
                 <li>Rooms</li>

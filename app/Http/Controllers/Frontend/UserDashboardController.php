@@ -29,4 +29,14 @@ class UserDashboardController extends Controller
             ]);
         return $pdf->download('invoice-booking-' . $booking->code . '.pdf');
     }
+
+    public function dashboard()
+    {
+        $id = Auth::user()->id;
+
+        $bookings = Booking::where('user_id', $id)->get()->count();
+        $pending = Booking::where('user_id', $id)->where('status', 0)->get()->count();
+        $complete = Booking::where('user_id', $id)->where('status', 1)->get()->count();
+        return view('frontend.dashboard.user_dashboard', compact('bookings', 'pending', 'complete'));
+    }
 }

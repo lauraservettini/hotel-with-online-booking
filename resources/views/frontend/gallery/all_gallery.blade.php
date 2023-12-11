@@ -8,7 +8,7 @@
         <div class="inner-title">
             <ul>
                 <li>
-                    <a href="index.html">Gallery</a>
+                    <a href="{{ route('show.gallery') }}">Gallery</a>
                 </li>
                 <li><i class='bx bx-chevron-right'></i></li>
                 <li>All Gallery</li>
