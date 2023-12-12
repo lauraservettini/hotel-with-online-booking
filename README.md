@@ -6,6 +6,8 @@
 Questo è il sito di un hotel con prenotazione e checkout online, costruito utilizzando Laravel.
 Ci sono un template frontend e un template backend con la possibilità di scegliere tra tema "chiaro" e tema "scuro".
 
+Per il sito sono state utilizzate:
+
 - Routes [Simple, fast routing engine](https://laravel.com/docs/routing).
 - Factory Design Pattern [Powerful dependency injection container](https://laravel.com/docs/container).
 - Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
@@ -47,7 +49,7 @@ Tutti i contenuti sono inseriti in modo dinamico nel sito. Per ogni sezione sono
 ## Backend
 
 Nel sito è implementata oltre la parte dell'autenticazione anche una parte relativa alle autorizzazioni, ai ruoli e ai permessi.
-Se l'user che fa login è registrato come admin avrà accesso alla dashboard di controllo delle funzionalità del sito. I vari menu' e le varie funzionalità sono visibili all'admin in base al ruoli ed ai permessi attribuiti al ruolo stesso.
+Se l'user che fa login è registrato come admin avrà accesso alla dashboard di controllo delle funzionalità del sito. I vari menu' e le varie funzionalità sono visibili all'admin in base al ruolo ed ai permessi attribuiti al ruolo stesso.
 Con i relativi permessi è possibile impostare direttamente dall'admin panel le impostazioni smtp, attribuire ruoli e relativi permessi, variare lo stato dei pagamenti e del booking, assegnare il numero di camera, verificare i messaggi di contatto, impostare la gallery, le room, il team, i testimonial e il blog.
 
 
